@@ -25,7 +25,7 @@ previous.date <- gsub("\\.", "-", previous.date)
 previous.date <- parse_date_time(previous.date, orders = c("ymd", "dmy", "mdy"))
 todays.date <- as.Date(previous.date) + 1
 
-sport_schedule <-  sport_schedule %>% 
+sport_schedule.today <-  sport_schedule %>% 
   mutate(Date = todays.date) %>% 
   relocate(Date, .before = Timetable)
 
@@ -46,19 +46,18 @@ location <- schedule.html %>%
   html_text2()
 head(location) 
 
-date <- schedule.html %>%
-  html_nodes("div.planning-navigation td.today") %>% 
+previous.date <- schedule.html %>%
+  html_nodes("div.planning-navigation td.back") %>% 
   html_text2()
-date <- sub("novembre", "11", date)
-date <- gsub("[[:alpha:][:blank:]]+", "-", date)
-date <- gsub("^\\D", "", date)
-head(date)
+previous.date <- gsub("\\.", "-", previous.date)
+previous.date <- parse_date_time(previous.date, orders = c("ymd", "dmy", "mdy"))
+todays.date <- as.Date(previous.date) + 1
 
-sport_schedule <- tibble(data.frame(
+sport_schedule.today <- tibble(data.frame(
   Timetable = timetable,
   Activity = activity,
   Location = location)) %>% 
-  mutate(Date = date) %>% 
+  mutate(Date = todays.date) %>% 
   relocate(Date, .before = Timetable)
 
 #----------------------------------------------------------------------------
@@ -86,17 +85,13 @@ for (i in 1:8) {
     html_text2()
   previous.date <- gsub("\\.", "-", previous.date)
   previous.date <- parse_date_time(previous.date, orders = c("ymd", "dmy", "mdy"))
-  todays.date <- as.Date(previous.date) + 1 # Retrive todays date
+  todays.date <- as.Date(previous.date) + 1 # Retrieve todays date
   table_new <-  table_new %>% 
     mutate(Date = todays.date) %>% 
     relocate(Date, .before = Timetable)
   sport_schedule<- rbind(sport_schedule,table_new) # Create table
 }
 
+# Create data to use for the functions
 usethis::use_data(sport_schedule, overwrite = TRUE) # create data file
 
-
-# sport_schedule %>% 
-#   head() %>% 
-#   flextable() %>% 
-#   autofit()
