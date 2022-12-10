@@ -5,7 +5,7 @@ activity <- c('Aquagym', 'Zumba', 'Pilates', 'Agrès',
               'Tai ji quan / Tous niveaux', 
               'Musculation connectée / 1. Introduction',
               'Cirque', 'Aviron / Débutants', 'Salsa cubaine / Débutants')
-weigth <- 50
+weight <- 50
 time <- c('07:00 – 08:00', '08:00 – 09:00', '12:00 – 13:00', '13:00 – 14:00',
           '17:00 – 18:00', '18:00 – 19:00', '19:00 – 20:00')
 
@@ -58,25 +58,21 @@ table_opt <- cleanscheduletemp %>% filter(time == 1)
 library(lpSolve)
 
 # Set coefficients of the objective function
-f.obj <- c(rep(1, nrow(table_opt)))
+n_activity <- nrow(table_opt)
+f.obj <- c(rep(1, n_activity))
 
 # Find calories burn per activity
 table_opt <- table_opt %>% mutate(calburn = p*weight)
 # Set matrix corresponding to coefficients of constraints by rows
 # Do not consider the non-negative constraint; it is automatically assumed
-f.con <- matrix(c(1, 0,
-                  2, 3,
-                  1, 1), nrow = 3, byrow = TRUE)
+f.con <- matrix(table_opt$calburn, nrow = 1)
 
 # Set unequality signs
-f.dir <- c("<=",
-           "<=",
-           "<=")
+f.dir <- c(">=")
 
 # Set right hand side coefficients
-f.rhs <- c(16,
-           19,
-           8)
+f.rhs <- calburn
 
 # Final value (z)
-lp("min", f.obj, f.con, f.dir, f.rhs)
+c <- lp("min", f.obj, f.con, f.dir, f.rhs, int.vec = 1:n_activity, all.bin = TRUE)
+lp("min", f.obj, f.con, f.dir, f.rhs)$solution
