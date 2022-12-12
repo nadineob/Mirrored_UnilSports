@@ -6,12 +6,15 @@
 #' @export
 #' @examples
 #' webscrap_sports(days= 14)
-webscrap_sports <- function(day= 14,...) {
+webscrape_sports <- function(days= 14,...) {
   library(rvest)
   library(tidyverse)
   library(flextable)
   library(lubridate)
 
+  if (is.numeric(days) == F) { 
+    stop("'days' must be numeric")
+  }
   # Adding today's link to the list
   schedule.html <- read_html("https://sport.unil.ch/?mid=92") # webpage
   a_elements <- schedule.html %>% 
@@ -26,10 +29,10 @@ webscrap_sports <- function(day= 14,...) {
   new_list <- append(new_list,a_elements[1])
   
   # Consider today's date
-  day <- day -1
+  days <- days -1
   
   # Create list of days
-  for (i in 1:day) {
+  for (i in 1:days) {
     if (i == 1) {
       schedule.html <- read_html("https://sport.unil.ch/?mid=92") # webpage
       a_element <- schedule.html %>% 
@@ -55,10 +58,10 @@ webscrap_sports <- function(day= 14,...) {
   sport_schedule <- data.frame()
   
   # Adding today's date
-  day <- day +1
+  days <- days +1
   
   # Create sports table with the number of days require 
-  for (i in 1:day) {
+  for (i in 1:days) {
     html <- read_html(new_vector[i])
     table_new <- rvest::html_element(html, css = "table.quotidien" ) %>% 
       rvest::html_table() %>% 
