@@ -2,11 +2,12 @@
 get_cleanschedule_met <- function() {
   library(dplyr)
   library(readxl)
+  library(here)
   
   # Import data
-  load("data/sport_schedule.rda")
-  load("data/met_values.rda")
-  mapping <- read_excel("data/Mapping_activities_MET.xlsx")
+  load(here::here("data/sport_schedule.rda"))
+  load(here::here("data/met_values.rda"))
+  mapping <- read_excel(here::here("data/Mapping_activities_MET.xlsx"))
   
   # Cleaning 
   unique(sport_schedule$Timetable)
@@ -54,7 +55,7 @@ optimize_schedule <- function(cleanschedule, date, activity, time, calburn, weig
   cleanscheduletemp <- cleanscheduletemp %>% mutate(time = 0)
   cleanscheduletemp <- cleanscheduletemp[, c(1,2,3,9,4,5,6,7,8)]
   
-  timetemp <- as.data.frame(matrix(as.numeric(gsub("\\:",".",unlist(strsplit(time, "–")))),
+  timetemp <- as.data.frame(matrix(as.numeric(gsub("\\:",".",unlist(strsplit(sort(time), "–")))),
                                    ncol = 2, byrow = TRUE))
   
   # Aggregate the connecting time slots 
@@ -75,9 +76,11 @@ optimize_schedule <- function(cleanschedule, date, activity, time, calburn, weig
         selected_time <- rbind(selected_time, output_temp)
         output_temp <- timetemp[i,]
       }
-      if(i==n){
-        selected_time <- rbind(selected_time, output_temp)
-      }
+      
+    }
+    # FIX BUG
+    if(i==n){
+      selected_time <- rbind(selected_time, output_temp)
     }
   }
   
@@ -157,6 +160,6 @@ time <- c('07:00 – 08:00', '08:00 – 09:00', '12:00 – 13:00', '13:00 – 14
           '17:00 – 18:00', '18:00 – 19:00', '19:00 – 20:00')
 
 cleanschedule<- get_cleanschedule_met()
-optimize_output <- optimize_schedule(cleanschedule, date, activity, time, calburn, weight) 
-optimize_output[1] # 1 if successful and 0 if fail
-sum(optimize_output$table_result$calburn) # 753.375
+# optimize_output <- optimize_schedule(cleanschedule, date, activity, time, calburn, weight) 
+# optimize_output[1] # 1 if successful and 0 if fail
+# sum(optimize_output$table_result$calburn) # 753.375
