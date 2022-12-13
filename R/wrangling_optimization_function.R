@@ -6,7 +6,7 @@
 #' @export
 #' @examples
 #' # Use the data frame retrieved from the webscrape_sports function
-#' get_cleanschedule_met(data= sport_schedule)
+#' get_cleanschedule_met()
 
 get_cleanschedule_met <- function() {
   library(dplyr)
