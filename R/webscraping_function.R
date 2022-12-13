@@ -5,13 +5,15 @@
 #' @return  A data frame containing the sports schedule of the number of days selected
 #' @export
 #' @examples
-#' webscrap_sports(days= 14)
-webscrape_sports <- function(days= 14,...) {
+#' # Run the function as it is
+#' webscrap_sports()
+webscrape_sports <- function() {
   library(rvest)
   library(tidyverse)
-  library(flextable)
   library(lubridate)
-
+  
+  days <- 7
+  
   if (is.numeric(days) == F) { 
     stop("'days' must be numeric")
   }
@@ -78,5 +80,32 @@ webscrape_sports <- function(days= 14,...) {
       relocate(Date, .before = Timetable)
     sport_schedule<- rbind(sport_schedule,table_new) # Create table
   }
-  return(sport_schedule)
+  return(usethis::use_data(sport_schedule, overwrite = TRUE))
+}
+
+#' @title Webscraping function for MET Values
+#' @description A function that returns the MET values table of more than 800 activities.
+#' @return  A data frame containing the MET values per sport activity.
+#' @export
+#' @examples
+#' # Run the function as it is
+#' webscrape_MET()
+
+webscrape_MET <- function() {
+  library(rvest)
+  library(tidyverse)
+  
+  met_values.html <- read_html("https://golf.procon.org/met-values-for-800-activities/") # webpage
+  
+  # Retrieve METs Values table
+  element <- met_values.html %>% 
+    html_element(css = "tbody.row-hover")
+  element
+  
+  met_values <- element %>% 
+    html_table() %>% 
+    rename("Activity" = "X1", "Specific Motion"= "X2", "METs"="X3")
+  
+  # Create data to use for the functions
+  return(usethis::use_data(met_values, overwrite = TRUE))
 }

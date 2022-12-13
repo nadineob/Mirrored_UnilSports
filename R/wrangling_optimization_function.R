@@ -1,4 +1,12 @@
-#############################Wrangling Function#################################
+#' @title Wrangling Function
+#' @description 
+#' A function that clean the output (data frame) returned from the webscrape_sports function. 
+#' During this function the MET values will be mapped into the data in order to calculate the calorie burn amount per activity.  
+#' @return  A data frame containing the activities per day with their correspondingly Met values.
+#' @export
+#' @examples
+#' # Use the data frame retrieved from the webscrape_sports function
+#' get_cleanschedule_met()
 get_cleanschedule_met <- function() {
   library(dplyr)
   library(readxl)
@@ -39,7 +47,34 @@ get_cleanschedule_met <- function() {
   return(sport_schedule)
 }
 
-############################Optimization Function###############################
+
+
+#' @title Optimization Function
+#' @description 
+#' Function that evaluates the calorie burn per activity and time according to the parameters entered.  
+#' @param cleanschedule The data frame output from the get_cleanschedule_met. The output of this function should not be modified, so this function can apply the integer optimization technique properly. .
+#' @param date 
+#' @param activity
+#' @param time
+#' @param calburn
+#' @param weight
+#' @return  
+#' @export
+#' @examples
+#' # Define Inputs
+#' calburn <- 500
+#' date <- c('2022-12-02')
+#' activity <- c('Aquagym', 'Zumba', 'Pilates', 'Agrès',
+#'              'Tai ji quan / Tous niveaux', 
+#'              'Musculation connectée / 1. Introduction',
+#'              'Cirque', 'Aviron / Débutants', 'Salsa cubaine / Débutants')
+#' weight <- 50
+#' time <- c('07:00 – 08:00', '08:00 – 09:00', '12:00 – 13:00', '13:00 – 14:00',
+#'          '17:00 – 18:00', '18:00 – 19:00', '19:00 – 20:00')
+#' cleanschedule<- get_cleanschedule_met(data= sport_schedule) 
+#' # optimize_output <- optimize_schedule(cleanschedule, date, activity, time, calburn, weight) 
+#' # optimize_output[1] # 1 if successful and 0 if fail
+#' # sum(optimize_output$table_result$calburn) # 753.375
 optimize_schedule <- function(cleanschedule, date, activity, time, calburn, weight) {
   # intall.package("lpSolve")
   library(lpSolve)
@@ -146,20 +181,3 @@ optimize_schedule <- function(cleanschedule, date, activity, time, calburn, weig
   
 }
 
-# Example 
-# Define inputs
-calburn <- 500
-date <- c('2022-12-02')
-activity <- c('Aquagym', 'Zumba', 'Pilates', 'Agrès',
-              'Tai ji quan / Tous niveaux', 
-              'Musculation connectée / 1. Introduction',
-              'Cirque', 'Aviron / Débutants', 'Salsa cubaine / Débutants')
-
-weight <- 50
-time <- c('07:00 – 08:00', '08:00 – 09:00', '12:00 – 13:00', '13:00 – 14:00',
-          '17:00 – 18:00', '18:00 – 19:00', '19:00 – 20:00')
-
-cleanschedule<- get_cleanschedule_met()
-# optimize_output <- optimize_schedule(cleanschedule, date, activity, time, calburn, weight) 
-# optimize_output[1] # 1 if successful and 0 if fail
-# sum(optimize_output$table_result$calburn) # 753.375
