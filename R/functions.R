@@ -153,12 +153,12 @@ get_cleanschedule_met <- function(sport_schedule,met_values) {
   
   colnames(timetemp) <- c("Start time", "End time", "Duration_min")
   sport_schedule <- cbind(sport_schedule, timetemp)
-  sport_schedule <- sport_schedule %>% 
+  clean_sport_schedule <- sport_schedule %>% 
     select(Date, `Start time`, `End time`, Duration_min, Activity, Location, METs) %>%
     mutate(p = (Duration_min*METs*3.5)/200)
   
-  checkna <- sum(is.na(sport_schedule)) #0 no NA
-  return(sport_schedule)
+  checkna <- sum(is.na(clean_sport_schedule)) #0 no NA
+  return(clean_sport_schedule)
 }
 
 
@@ -185,7 +185,7 @@ get_cleanschedule_met <- function(sport_schedule,met_values) {
 #' weight <- 50
 #' time <- c('07:00 – 08:00', '08:00 – 09:00', '12:00 – 13:00', '13:00 – 14:00',
 #'          '17:00 – 18:00', '18:00 – 19:00', '19:00 – 20:00')
-#' cleanschedule<- get_cleanschedule_met(data= sport_schedule) 
+#' cleanschedule<- get_cleanschedule_met(data= clean_sport_schedule) 
 #' # optimize_output <- optimize_schedule(cleanschedule, date, activity, time, calburn, weight) 
 #' # optimize_output[1] # 1 if successful and 0 if fail
 #' # sum(optimize_output$table_result$calburn) # 753.375
