@@ -7,7 +7,6 @@
 #' @examples
 #' # Use the data frame retrieved from the webscrape_sports function
 #' get_cleanschedule_met()
-
 get_cleanschedule_met <- function() {
   library(dplyr)
   library(readxl)
@@ -50,10 +49,6 @@ get_cleanschedule_met <- function() {
 
 
 
-
-
-
-
 #' @title Optimization Function
 #' @description 
 #' Function that evaluates the calorie burn per activity and time according to the parameters entered.  
@@ -63,7 +58,6 @@ get_cleanschedule_met <- function() {
 #' @param time
 #' @param calburn
 #' @param weight
-#' @param ... a parameter that allows the user to enter additional arguments that are not defined in the function
 #' @return  
 #' @export
 #' @examples
@@ -81,7 +75,6 @@ get_cleanschedule_met <- function() {
 #' # optimize_output <- optimize_schedule(cleanschedule, date, activity, time, calburn, weight) 
 #' # optimize_output[1] # 1 if successful and 0 if fail
 #' # sum(optimize_output$table_result$calburn) # 753.375
-
 optimize_schedule <- function(cleanschedule, date, activity, time, calburn, weight) {
   # intall.package("lpSolve")
   library(lpSolve)

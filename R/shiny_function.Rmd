@@ -11,6 +11,7 @@ library(shiny)
 library(shinythemes)
 library(dplyr)
 
+source("webscraping_function.R")
 source("wrangling_optimization_function.R")
 cleanschedule <- get_cleanschedule_met()
 
