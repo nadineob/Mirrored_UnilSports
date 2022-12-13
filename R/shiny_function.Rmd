@@ -213,7 +213,7 @@ ui <- fluidPage(
     
     mainPanel(
       tableOutput("selected_var"),
-      textOutput("min_max")
+      textOutput("response")
     )
   )
 )
@@ -290,6 +290,14 @@ server <- function(input, output, session) {
               Carlburn = table_result.calburn)
      
      })
+   
+    output$response <- renderText({ 
+      if (optimize_output()[1] == 1) { 
+        print('The optimization is successful!')
+        } else {
+          print('No feasible solution found')
+        }
+    })
   
 }
 
@@ -314,4 +322,12 @@ test <- data.frame(optimize_output[2]) %>%
          Activity = table_result.Activity, Location = table_result.Location,
          Carlburn = table_result.calburn) %>% 
   as.POSIXct(as.character(Date),format="%Y%m%d")
+
+
+
+if (optimize_output[1] == 1) { 
+    cat(sprintf('The optimization is successful\n'))
+  } else {
+    cat(sprintf('No feasible solution found\n'))
+  }
 ```
