@@ -15,7 +15,7 @@ get_cleanschedule_met <- function() {
   # Import data
   load(here::here("data/sport_schedule.rda"))
   load(here::here("data/met_values.rda"))
-  mapping <- read_excel(here::here("data/Mapping_activities_MET.xlsx"))
+  mapping <- read_excel(here::here("data-raw/Mapping_activities_MET.xlsx"))
   
   # Cleaning 
   unique(sport_schedule$Timetable)

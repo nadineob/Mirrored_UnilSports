@@ -80,7 +80,8 @@ webscrape_sports <- function() {
       relocate(Date, .before = Timetable)
     sport_schedule<- rbind(sport_schedule,table_new) # Create table
   }
-  return(usethis::use_data(sport_schedule, overwrite = TRUE))
+  usethis::use_data(sport_schedule, overwrite = TRUE)
+  return(sport_schedule)
 }
 
 #' @title Webscraping function for MET Values
@@ -107,5 +108,7 @@ webscrape_MET <- function() {
     rename("Activity" = "X1", "Specific Motion"= "X2", "METs"="X3")
   
   # Create data to use for the functions
-  return(usethis::use_data(met_values, overwrite = TRUE))
+  usethis::use_data(met_values, overwrite = TRUE)
+  return(met_values)
 }
+
