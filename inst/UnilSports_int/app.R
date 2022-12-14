@@ -9,7 +9,7 @@ met_values     <- webscrape_MET()
 cleanschedule <- get_cleanschedule_met(sport_schedule,met_values)
 
 ui <- fluidPage(
-  theme = shinytheme("united"),
+  theme = bs_theme(bootswatch = "united", base_font = font_google("Montserrat")),
   titlePanel("Sports Unil Plan"),
   
   sidebarLayout(
@@ -124,7 +124,7 @@ server <- function(input, output, session) {
                                     input$weight)  
   })
   
-  output$optim_table <- renderTable({
+  output$optim_table <- renderTable(hover = T,{
     data.frame(optimize_output()[2]) %>%
       select(-c(table_result.Date, table_result.time, table_result.METs, table_result.p)) %>% 
       rename( `Start Time` = table_result.Start.time,

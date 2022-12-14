@@ -358,15 +358,14 @@ library(shinythemes)
 library(dplyr)
 library(bslib)
 
-source("functions.R")
-
-sport_schedule <- webscrape_sports()
-met_values     <- webscrape_MET()
-cleanschedule <- get_cleanschedule_met(sport_schedule,met_values)
+# source("functions.R")
+# 
+# sport_schedule <- webscrape_sports()
+# met_values     <- webscrape_MET()
+# cleanschedule <- get_cleanschedule_met(sport_schedule,met_values)
 
 ui <- fluidPage(
-  theme = bs_theme(bg = "white", fg = "black", primary = "maroon",
-                   base_font = font_google("Montserrat")),
+  theme = bs_theme(bootswatch = "united", base_font = font_google("Montserrat")),
   titlePanel("Sports Unil Plan"),
   
   sidebarLayout(
