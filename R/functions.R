@@ -355,7 +355,7 @@ ui <- fluidPage(
     
     mainPanel(
       tabsetPanel( type = "tabs",
-                   tabPanel("Optimization", tableOutput("optim_table"),textOutput("optim_result"),plotOutput("piechart")),
+                   tabPanel("Optimization", tableOutput("optim_table"),textOutput("optim_result")),
                    tabPanel("Activities"  , tableOutput("activity_table"))
       )
     )
@@ -436,10 +436,6 @@ server <- function(input, output, session) {
       print('No feasible solution found')
     }
   })
-  
-  output$piechart <- plotOutput(
-    optimize_output()[2]
-  )
   
   output$activity_table <- renderTable({
     data.frame(optimize_output()[3]) %>%
