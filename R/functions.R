@@ -119,9 +119,12 @@ webscrape_MET <- function() {
 #' @examples
 #' # Use the data frame retrieved from the webscrape_sports function
 #' get_cleanschedule_met()
-get_cleanschedule_met <- function(sport_schedule,met_values,mapping) {
+get_cleanschedule_met <- function(sport_schedule,met_values) {
   library(dplyr)
   library(here)
+  
+  #Loading mapping file 
+  load(here::here("data/mapping.rda"))
   
   # Cleaning 
   unique(sport_schedule$Timetable)
