@@ -39,7 +39,7 @@ Further information about MET can be found in [Using Metabolic Equivalent for Ta
 
 ## UnilSports Shinny App
 
-![](https://gfycat.com/academicassuredavocet){width="640" height="404"}
+![](https://thumbs.gfycat.com/AcademicAssuredAvocet-size_restricted.gif){width="640" height="404"}
 
 
 ### Optimization Function
