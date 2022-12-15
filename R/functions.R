@@ -380,18 +380,22 @@ pie_optim <- function(optim_plot){
     arrange(desc(group)) %>%
     mutate(propd = value_duration / sum(data$value_duration) *100) %>%
     mutate(yposd = cumsum(propd)- 0.5*propd)
-
+  
 # Calburn chart
   calburnplot <- plot_ly(data, labels = ~group, values = ~value_burn, type = 'pie')
-  calburnplot <- calburnplot %>% layout(title = 'Calorie burn',
-                        xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-                        yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+  calburnplot <- calburnplot %>% 
+    layout(title = '<b> Calorie Burn <b>',
+           xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+           yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+           legend = list(orientation = 'h'))
   
 # Duration chart
   durationplot <- plot_ly(data, labels = ~group, values = ~value_duration, type = 'pie')
-  durationplot <- durationplot %>% layout(title = 'Exercise duration (minutes)',
-                                        xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-                                        yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+  durationplot <- durationplot %>% 
+    layout(title = '<b> Exercise Duration (min) <b>',
+           xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+           yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+           legend = list(orientation = 'h'))
 
   return(list(calburnplot, durationplot))
 }

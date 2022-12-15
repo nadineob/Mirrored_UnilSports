@@ -1,0 +1,143 @@
+---
+title: "Introduction to UnilSports package"
+author: "Nadine Obeid, Manunpat Sirijaturaporn, Katti Irastorza, Arturo Garcia Luna Beltran"
+date: "December 2022"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{my-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(tibble.print_min = 4L, tibble.print_max = 4L)
+library(rvest)
+  library(tidyverse)
+  library(flextable)
+  library(lubridate)
+ library(dplyr)
+  library(here)
+ library(UnilSports)
+```
+
+
+
+## Introduction
+   Choosing for the ideal activity at UNIL sports webpage may take some time given that it is structured in such a way that students see all the activities that are offered at each day. So if we want to build a weekly schedule, we should go day by day looking for the type of activity we are interested in.
+   
+   The UnilSports package optimizes this selection and provides more information related to each activity. By using the functions that are included and introducing your own preferences as constraints, you can create a timetable that returns:
+   
+* The time and place at which each activity is offered.
+
+* The total amount of calories that are burnt during each activity.
+
+* A plot with the optimization results.
+     
+This document introduces you to UnilSports basic set of tools, and shows you how to apply them.
+  
+
+## Transform daily data into weekly data `webscrape_sports()`
+  This function returns a weekly sports table schedule.
+  
+  
+  
+### Example
+```{r,echo=TRUE}
+ webscrape_sports()
+```
+  
+## Webscrape met data `webscrape_MET()`
+ This function returns the MET values table of more than 800 activities.
+   
+```{r,echo=TRUE}
+webscrape_MET()
+ 
+```
+
+## Mapping the data `get_cleanschedule_met()`
+  This function cleans the data scraped from the webpage of Unil sports and produces a proper dataset mapped to another dataset web-scraped for met values. 
+  
+  
+  
+### Example
+  
+```{r,echo=TRUE}
+options(tibble.print_min = 4L, tibble.print_max = 4L)
+get_cleanschedule_met(sport_schedule,met_values,mapping)
+```
+
+## Evaluating the calories burnt at each activity `optimize_schedule()`
+
+This function evaluates the calorie burn per activity and time according to the parameters entered.  
+
+### Arguments
+
+#### cleanschedule
+
+   The data frame output from the get_cleanschedule_met
+   
+   
+#### date
+
+   Days of the week in which you want to practice sports
+   
+   
+#### activity
+
+   Preferred type of activity
+   
+   
+#### time
+
+   Time disponibility
+   
+   
+#### calburn
+
+   Amount of calories that are wanted to be burnt
+   
+   
+#### weight
+
+   Weight of the user
+   
+   
+   
+### Example
+```{r,echo=TRUE}
+cleanschedule <- get_cleanschedule_met(sport_schedule,met_values,mapping)
+ calburn <- 500
+date <- c('2022-12-14')
+activity <- c('Aquagym', 'Zumba', 'Pilates', 'Agrès',
+             'Tai ji quan / Tous niveaux',
+              'Musculation connectée / 1. Introduction',
+          'Cirque', 'Aviron / Débutants', 'Salsa cubaine / Débutants')
+weight <- 50
+time <- c('07:00 – 08:00', '08:00 – 09:00', '12:00 – 13:00', '13:00 – 14:00',
+     '17:00 – 18:00', '18:00 – 19:00', '19:00 – 20:00')
+flag_no_duplicate_activities <- 1
+load(here::here("data/clean_sport_schedule.rda"))
+
+```
+
+
+## Piechart function `pie_optim()`
+  This function plots the optimization function results.
+
+### Arguments.
+   
+#### optimize_schedule
+   it refers to the results of the optimized schedule table
+   
+   (optimize_output$table_result)
+  
+### Example.
+```{r,echo=TRUE}
+optimize_output <- optimize_schedule(clean_sport_schedule, date, activity, time, calburn, weight,flag_no_duplicate_activities)
+optim_plot <- optimize_output$table_result
+pie_optim(optim_plot)
+```
