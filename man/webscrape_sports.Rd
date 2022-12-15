@@ -2,9 +2,9 @@
 % Please edit documentation in R/functions.R
 \name{webscrape_sports}
 \alias{webscrape_sports}
-\title{Web-scraping function for Sports Schedule}
+\title{Webscraping function for Sports Schedule}
 \usage{
-webscrape_sports(days = 14, ...)
+webscrape_sports(days = 7)
 }
 \arguments{
 \item{days}{The number of days that you want to retrieve from the Unil Sports Center website}
@@ -18,5 +18,6 @@ A data frame containing the sports schedule of the number of days selected
 A function that returns the sports table schedule from the Unil Sports Center
 }
 \examples{
-webscrape_sports(days= 14)
+# Run the function as it is
+webscrap_sports()
 }

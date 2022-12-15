@@ -4,14 +4,16 @@
 \alias{get_cleanschedule_met}
 \title{Wrangling Function}
 \usage{
-get_cleanschedule_met()
+get_cleanschedule_met(sport_schedule, met_values, mapping)
 }
 \value{
-A full schedule of the sports provided by Unil
+A data frame containing the activities per day with their correspondingly Met values.
 }
 \description{
-A function that cleans the data scraped from the webpage of Unil sports and produces a proper dataset mapped to another dataset web-scraped for met values. This function does not need any objects to be run, it will run automatically when called.
+A function that cleans the output (data rame) extracted from the webscrape_sports function. 
+This function maps the MET values into the data in order to calculate the calorie burn amount per activity.
 }
 \examples{
+# Use the data frame retrieved from the webscrape_sports function
 get_cleanschedule_met()
 }
