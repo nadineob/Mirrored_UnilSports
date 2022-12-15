@@ -1,5 +1,43 @@
 # final-project-group_b
 final-project-group_b created by GitHub Classroom
+
+The `UnilSports` makes it easier for UNIL/EPFL users or people interested in the activities of the University of Lausanne Sports Center to find their preferred sport more efficiently and to have an estimate of calorie burn.
+
+## Motivation
+
+The aim of this package is to optimize the selection of UNIL/EPFL sports center activities depending on the characteristics and needs of each individual. Given the huge variety that is offered, the activities are shortly defined and do not provide various information that people could be interested in such as the amount of calories that are burned, and the intensity of the activity. This information could be useful for those people who want to follow a more detailed track of their physical activity. Therefore, in this project we will be providing an interactive dashboard that suggests a personal timetable of different sports classes based on the user’s preference and availability which might facilitate the class-search process. This way it will be easier for UNIL/EPFL students to introduce the physical activity in their schedules and be motivated to do so.
+
+## Disclaimer 
+
+With this package the user will be able to visualize in a dashboard the daily exercise recommendation plan based on the user's preference. To obtain a recommendation, users will be required to fill in some information about themselves such as the following: 
+
+* The number of calories that users would like to burn out per day.
+* A preferable time slot that users would like to workout in. 
+* Preferable sport activities. Similar to the preferable time slot, users can select multiple sport activities from a dropdown list of the classes provided.
+* User's weight. This is needed to calculate the number of calories burned.
+
+## Import Packages
+In order to complete this project, we anticipate to use the following packages:
+
+* `rvest`: for webscraping one webpage
+* `rcrawler`: this package might also be used for webscraping across different webpages if needed
+* `devtools`: for facilitating the package development process by providing R functions that simplify and expedite common tasks
+* `lpSolve`: for the integer optimization to provide the daily exercise recommendation plan
+
+
+## Data
+
+We will use the data from Sports Universitaires Lausanne to create the main table containing the daily time table of sport activity.
+
+* [Sports Universitaires Lausanne](https://sport.unil.ch/?mid=92)
+* [MET Values for 800+ activities](https://golf.procon.org/met-values-for-800-activities/)
+
+In addition, we will use the MET value data to create another table containing two columns; the list of sport activities (matching with the activities from Sports Universitaires Lausanne) and the number of calories burned based on the formula from [How to Calculate the Calories You Burn During Exercise](https://www.verywellfit.com/how-many-calories-you-burn-during-exercise-4111064). To calculate the number of calories burned for each user, we follow the below formula.
+
+$$Total\ calories\ burned = Duration\ (minutes)\ *\ (MET\ *\ 3.5\ *weight\ in\ kg)/200 $$ 
+Further information about MET can be found in [Using Metabolic Equivalent for Task (MET) for Exercises](https://www.verywellfit.com/met-the-standard-metabolic-equivalent-3120356). 
+
+
 ### Optimization 
   # Objective function: minimize the number of chosen activities
   #           Equation: min sum(x_i)
