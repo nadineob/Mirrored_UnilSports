@@ -15,15 +15,31 @@ optimize_schedule(
 )
 }
 \arguments{
-\item{date}{}
+\item{date}{the date that the user wants to search for activities in.}
+
+\item{activity}{type of sports activity the user wants to attend.}
+
+\item{time}{timing the the user is available in.}
+
+\item{calburn}{the minimum number of calories the user wants to burn.}
+
+\item{weight}{the actual weight in kg of the user.}
+
+\item{flag_no_duplicate_activities}{decides whether to show duplicates in the output or not. If  flag_no_duplicate_activities = TRUE, there will be no duplicate activities in the output.}
 
 \item{cleanschedule}{The data frame output from the get_cleanschedule_met. The output of this function should not be modified, so this function can apply the integer optimization technique properly. .}
 }
+\value{
+returns a list of 5 items, the optim_result, table_result (which has all the details of the best activity/ies, activity_selected, totalcal, totalduration)
+}
 \description{
-Function that evaluates the calorie burn per activity and time according to the parameters entered.
+Function that evaluates the calorie burn per activity and time according to the parameters entered.  
+    This optimization function calculates the calaory burn subject to 3 constraints: 
+    1. The total calorie burn must exceed the target calorie Equation: sum(x_i*cal_i) >= calburn where cal_i is the calorie burn of activity i and calburn is the target calorie.
+    2. No overlapping time slots. The optimizer won't select 2 or more activities that occur at the same time. For example, if activity A starts at 8.00 and ends at 9.00 and activity B starts at 8.45 and ends at 9.15, they cannot be selected together (i.e. only one of them can be selected) Equation: x_a + x_b + x_c +... <= 1 for all overlapping time intervals if activity a, b, c,... have overlapping time slots. 
+    3. Do not select the same activity.The same activity cannot be selected. For example, if there are several Football sessions, only 1 Football session can be selected. Equation: x_i + x_j + x_k + ... <= 1 for all duplicate activities if activity i, j, k,... are the same activity
 }
 \examples{
-# Define Inputs
 calburn <- 500
 date <- c('2022-12-14')
 activity <- c('Aquagym', 'Zumba', 'Pilates', 'Agrès',
@@ -35,5 +51,5 @@ time <- c('07:00 – 08:00', '08:00 – 09:00', '12:00 – 13:00', '13:00 – 14
          '17:00 – 18:00', '18:00 – 19:00', '19:00 – 20:00')
 flag_no_duplicate_activities <- 1
 load(here::here("data/clean_sport_schedule.rda"))
-optimize_output <- optimize_schedule(clean_sport_schedule, date, activity, time, calburn, weight,flag_duplicate_activities)
+optimize_output <- optimize_schedule(clean_sport_schedule, date, activity, time, calburn, weight,flag_no_duplicate_activities)
 }

@@ -15,33 +15,33 @@ webscrape_sports <- function(days = 7) {
   if (is.numeric(days) == F) { 
     stop("'days' must be numeric")
   }
-  # Adding today's link to the list
+
   schedule.html <- read_html("https://sport.unil.ch/?mid=92") # webpage
   a_elements <- schedule.html %>% 
     html_nodes(".summary .level2>li>a") %>% 
     html_attr("href")
   a_elements <- paste("https://sport.unil.ch/",a_elements, sep = "") 
   
-  #Create list of links for the master table
+
   new_list <- list()
   
-  # Adding today's link to the new list
+  
   new_list <- append(new_list,a_elements[1])
   
-  # Consider today's date
+
   days <- days -1
   
-  # Create list of days
+
   for (i in 1:days) {
     if (i == 1) {
-      schedule.html <- read_html("https://sport.unil.ch/?mid=92") # webpage
+      schedule.html <- read_html("https://sport.unil.ch/?mid=92") 
       a_element <- schedule.html %>% 
         html_nodes(".planning-navigation .next>a") %>% 
         html_attr("href")
       new.html <- paste("https://sport.unil.ch/",a_element, sep = "") 
       new_list <- append(new_list,new.html)
     } else {
-      schedule.html <- read_html(new.html) # webpage
+      schedule.html <- read_html(new.html) 
       a_element <- schedule.html %>% 
         html_nodes(".planning-navigation .next>a") %>% 
         html_attr("href")
@@ -50,17 +50,17 @@ webscrape_sports <- function(days = 7) {
     }
   }
   
-  # Transform to a vector of characters
+ 
   new_vector <- unlist(new_list)
   
-  # Creating two empty dataframes for table
+
   table_new <-data.frame()
   sport_schedule <- data.frame()
   
-  # Adding today's date
+
   days <- days +1
   
-  # Create sports table with the number of days require 
+ 
   for (i in 1:days) {
     html <- read_html(new_vector[i])
     table_new <- rvest::html_element(html, css = "table.quotidien" ) %>% 
@@ -68,11 +68,11 @@ webscrape_sports <- function(days = 7) {
       slice(-1) %>% # Remove first Row (weird names) 
       rename("Timetable" = "X1", "Activity"= "X2", "Location"="X3")
     previous.date <- html %>%
-      html_nodes("div.planning-navigation td.back") %>% # Retrieve the yesterdays date
+      html_nodes("div.planning-navigation td.back") %>% 
       html_text2()
     previous.date <- gsub("\\.", "-", previous.date)
     previous.date <- parse_date_time(previous.date, orders = c("ymd", "dmy", "mdy"))
-    todays.date <- as.Date(previous.date) + 1 # Retrieve today's date
+    todays.date <- as.Date(previous.date) + 1
     table_new <-  table_new %>% 
       mutate(Date = todays.date) %>% 
       relocate(Date, .before = Timetable)
@@ -89,13 +89,13 @@ webscrape_sports <- function(days = 7) {
 #' @return  A data frame containing the MET values per sport activity.
 #' @export
 #' @examples
-#' # Run the function as it is without any parameter
+#' Run the function as it is without any parameter
 #' webscrape_MET()
 webscrape_MET <- function() {
   library(rvest)
   library(tidyverse)
   
-  met_values.html <- read_html("https://golf.procon.org/met-values-for-800-activities/") # webpage
+  met_values.html <- read_html("https://golf.procon.org/met-values-for-800-activities/") 
   
   # Retrieve METs Values table
   element <- met_values.html %>% 
@@ -106,7 +106,7 @@ webscrape_MET <- function() {
     html_table() %>% 
     rename("Activity" = "X1", "Specific Motion"= "X2", "METs"="X3")
   
-  # Create data to use for the functions
+
   return(met_values)
 }
 
@@ -115,28 +115,28 @@ webscrape_MET <- function() {
 
 #' @title Wrangling Function
 #' @description 
-#' A function that cleans the output (data rame) extracted from the webscrape_sports function. 
-#' This function maps the MET values into the data in order to calculate the calorie burn amount per activity.  
-#' @importFrom here
+#'     A function that cleans the output (data rame) extracted from the webscrape_sports function. 
+#'     This function maps the MET values into the data in order to calculate the calorie burn amount per activity.  
+#' @import here
 #' @return  A data frame containing the activities per day with their correspondingly Met values.
 #' @export
 #' @examples
-#' # Use the data frame retrieved from the webscrape_sports function
+#' Use the data frame retrieved from the webscrape_sports function
 #' get_cleanschedule_met()
 get_cleanschedule_met <- function(sport_schedule,met_values) {
   library(dplyr)
   library(here)
   
-  #Loading mapping file 
+
   load(here::here("data/mapping.rda"))
   
-  # Cleaning 
+
   unique(sport_schedule$Timetable)
   sport_schedule <- sport_schedule %>% filter(!Timetable == "tout le jour")
   # Remove "tout le jour" from the sport_schedule
   sport_schedule <- sport_schedule %>% filter(!Activity == "Sport libre")
   
-  # Mapping table
+
   sport_schedule <- sport_schedule %>% 
     left_join(mapping, by = "Activity") %>%
     left_join(select(met_values,-Activity), by = "Specific Motion")
@@ -165,14 +165,19 @@ get_cleanschedule_met <- function(sport_schedule,met_values) {
 
 #' @title Optimization Function
 #' @description 
-#' Function that evaluates the calorie burn per activity and time according to the parameters entered.  
+#'     Function that evaluates the calorie burn per activity and time according to the parameters entered.  
+#'     This optimization function calculates the calaory burn subject to 3 constraints: 
+#'     1. The total calorie burn must exceed the target calorie Equation: sum(x_i*cal_i) >= calburn where cal_i is the calorie burn of activity i and calburn is the target calorie.
+#'     2. No overlapping time slots. The optimizer won't select 2 or more activities that occur at the same time. For example, if activity A starts at 8.00 and ends at 9.00 and activity B starts at 8.45 and ends at 9.15, they cannot be selected together (i.e. only one of them can be selected) Equation: x_a + x_b + x_c +... <= 1 for all overlapping time intervals if activity a, b, c,... have overlapping time slots. 
+#'     3. Do not select the same activity.The same activity cannot be selected. For example, if there are several Football sessions, only 1 Football session can be selected. Equation: x_i + x_j + x_k + ... <= 1 for all duplicate activities if activity i, j, k,... are the same activity
 #' @param cleanschedule The data frame output from the get_cleanschedule_met. The output of this function should not be modified, so this function can apply the integer optimization technique properly. .
 #' @param date the date that the user wants to search for activities in.
 #' @param activity type of sports activity the user wants to attend. 
 #' @param time timing the the user is available in.
 #' @param calburn the minimum number of calories the user wants to burn.
 #' @param weight the actual weight in kg of the user.
-#' @return  
+#' @param flag_no_duplicate_activities decides whether to show duplicates in the output or not. If  flag_no_duplicate_activities = TRUE, there will be no duplicate activities in the output.
+#' @return returns a list of 5 items, the optim_result, table_result (which has all the details of the best activity/ies, activity_selected, totalcal, totalduration)   
 #' @export
 #' @examples
 #' calburn <- 500
@@ -186,27 +191,25 @@ get_cleanschedule_met <- function(sport_schedule,met_values) {
 #'          '17:00 – 18:00', '18:00 – 19:00', '19:00 – 20:00')
 #' flag_no_duplicate_activities <- 1
 #' load(here::here("data/clean_sport_schedule.rda"))
-#' optimize_output <- optimize_schedule(clean_sport_schedule, date, activity, time, calburn, weight,flag_duplicate_activities)
+#' optimize_output <- optimize_schedule(clean_sport_schedule, date, activity, time, calburn, weight,flag_no_duplicate_activities)
 optimize_schedule <- function(clean_sport_schedule, date, activity, time, calburn, weight, flag_no_duplicate_activities = 0) {
   library(lpSolve)
   library(data.table)
   library(dplyr)
   
-  ### Filter Date and Activity from clean_sport_schedule  
+  
   cleanscheduletemp <- clean_sport_schedule %>% 
     filter(Date == date) %>%
     filter(Activity %in% activity)
   
-  # Prepare time to be ready to filter 
+
   cleanscheduletemp <- cleanscheduletemp %>% mutate(time = 0)
   cleanscheduletemp <- cleanscheduletemp[, c(1,2,3,9,4,5,6,7,8)]
   
   timetemp <- as.data.frame(matrix(as.numeric(gsub("\\:",".",unlist(strsplit(sort(time), "–")))),
                                    ncol = 2, byrow = TRUE))
   
-  # Aggregate the connecting time slots 
-  # e.g. if the selected time slots are 7am-8am and 8am-9am, combine them together into a single timeslot
-  # i.e. 7am-9am
+
   n <- length(time)
   selected_time <- data.frame()
   for (i in 1:n) {
@@ -338,14 +341,9 @@ optimize_schedule <- function(clean_sport_schedule, date, activity, time, calbur
 
 
 #' @title piechart Function
-#' @description 
-#' @param 
-#' @param  
-#' @param 
-#' @param 
-#' @param 
-#' @param 
-#' @return  
+#' @description a function that prints a pie chart reflecting the output of the optimization function
+#' @param optim_plot the output that is obtained in the table_result section of the optimize_schedule function output. 
+#' @return  a pie chart of the table_result
 #' @export
 #' @examples
 #' calburn <- 500
@@ -404,15 +402,19 @@ pie_optim <- function(optim_plot){
 }
 
 
+
+
+
+
 #' @title Shiny Application function for UnilSports package
-#' @description 
+#' @description This is a function that provides a dashboard for users to input their desired time tables, classes, calories burned to get a set of classes that adhere to the respective requirements
 #' @param sport_schedule 
 #' @param met_values 
 #' @param clean_sport_schedule 
-#' @return  
+#' @return  a shiny web application dashboard that provides the user with the available sports classes based on ceertain parameters entered by the user.
 #' @export
 #' @examples
-#' # Run the functions of the package
+#' Run the below functions from the UnilSports package
 #' sport_schedule <- webscrape_sports()
 #' met_values     <- webscrape_MET()
 #' clean_sport_schedule <- get_cleanschedule_met(sport_schedule,met_values)
