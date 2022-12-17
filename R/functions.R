@@ -8,9 +8,11 @@
 #' # Run the function as it is
 #' webscrap_sports()
 webscrape_sports <- function(days = 7) {
+  suppressPackageStartupMessages({
   library(rvest)
   library(tidyverse)
   library(lubridate)
+  })
   
   if (is.numeric(days) == F) { 
     stop("'days' must be numeric")
@@ -92,8 +94,10 @@ webscrape_sports <- function(days = 7) {
 #' Run the function as it is without any parameter
 #' webscrape_MET()
 webscrape_MET <- function() {
+  suppressPackageStartupMessages({
   library(rvest)
   library(tidyverse)
+  })
   
   met_values.html <- read_html("https://golf.procon.org/met-values-for-800-activities/") 
   
@@ -124,8 +128,10 @@ webscrape_MET <- function() {
 #' Use the data frame retrieved from the webscrape_sports function
 #' get_cleanschedule_met()
 get_cleanschedule_met <- function(sport_schedule,met_values) {
+  suppressPackageStartupMessages({
   library(dplyr)
   library(here)
+  })
   
 
   load(here::here("data/mapping.rda"))
@@ -196,7 +202,8 @@ optimize_schedule <- function(clean_sport_schedule, date, activity, time, calbur
   library(lpSolve)
   library(data.table)
   library(dplyr)
-  
+  library(rlang)
+
   
   cleanscheduletemp <- clean_sport_schedule %>% 
     filter(Date == date) %>%
@@ -361,9 +368,11 @@ optimize_schedule <- function(clean_sport_schedule, date, activity, time, calbur
 #' optim_plot <- optimize_output$table_result
 #' pie_optim(optim_plot) #call function
 pie_optim <- function(optim_plot){
+  suppressPackageStartupMessages({
   library(plotly)
   library(ggplot2)
   library(dplyr)
+  })
   
   # Create Data
   data <- data.frame(
@@ -419,94 +428,108 @@ pie_optim <- function(optim_plot){
 #' met_values     <- webscrape_MET()
 #' clean_sport_schedule <- get_cleanschedule_met(sport_schedule,met_values)
 #' UnilSports_gui(sport_schedule, met_values, clean_sport_schedule)
-UnilSports_gui <- function(sport_schedule, met_values, clean_sport_schedule) {
+UnilSports_gui <- function(clean_sport_schedule) {
+
   library(shiny)
   library(shinythemes)
   library(dplyr)
   library(plotly)
   library(bslib)
+
   
   # Take into account the functions created
   source("R/functions.R")
   
-  ui <- navbarPage(strong("Sports Unil Plan"), 
-                   theme = bslib::bs_theme(bootswatch = "united", 
-                                           base_font = font_google("Montserrat")),
-                   
-                   sidebarLayout(
-                     sidebarPanel(
-                       
-                       selectInput("date", 
-                                   label = strong("Choose a date you want to workout"),
-                                   choices = unique(clean_sport_schedule$Date),
-                                   selected = unique(clean_sport_schedule$Date)[1]),
-                       
-                       selectInput("time", 
-                                   label = strong("Choose time"),
-                                   choices = c('07:00 – 08:00', 
-                                               '08:00 – 09:00', 
-                                               '09:00 – 10:00', 
-                                               '10:00 – 11:00',
-                                               '11:00 – 12:00', 
-                                               '12:00 – 13:00', 
-                                               '13:00 – 14:00',
-                                               '14:00 – 15:00',
-                                               '15:00 – 16:00',
-                                               '16:00 – 17:00',
-                                               '17:00 – 18:00',
-                                               '18:00 – 19:00',
-                                               '19:00 – 20:00',
-                                               '20:00 – 21:00',
-                                               '21:00 – 22:00',
-                                               '22:00 – 23:00'),
-                                   selected = NULL,
-                                   multiple = TRUE),
-                       
-                       selectInput("activity", 
-                                   label = strong("Choose activity"),
-                                   choices = unique(filter(clean_sport_schedule, Date == unique(clean_sport_schedule$Date)[1])$Activity),
-                                   multiple = TRUE),
-                       
-                       numericInput("calburn",
-                                    label = strong("Calories you want to burn today (calories)"),
-                                    value = "1500",
-                                    step = 50),
-                       
-                       numericInput("weight",
-                                    label = strong("Your weight (kg)"),
-                                    value = "50"),
-                       checkboxInput("no_dup", "Do not choose the same activity", FALSE),
-                       actionButton("opt",
-                                    label = strong("  Go!"),
-                                    icon = icon("dumbbell"))
-                     ),
-                     
-                     mainPanel( 
-                       imageOutput("image", height = "50px", width = "auto"), 
-                       tabsetPanel( type = "tabs",
-                                    tabPanel("Optimization",
-                                             helpText("Optimization Result"), 
-                                             tableOutput("optim_table"),
-                                             textOutput("optim_result"),
-                                             fluidRow(
-                                               column(6, br(), br(),
-                                                      plotlyOutput("calburnplot", 
-                                                                   width = "100%",
-                                                                   height = "350px")),
-                                               column(6,br(), br(), 
-                                                      plotlyOutput("durationplot",
-                                                                   width = "100%",
-                                                                   height = "350px")))
-                                    ),
-                                    tabPanel("Available Activities"  , 
-                                             helpText("List of available activities with respect to the criteria"), 
-                                             tableOutput("activity_table"))
-                       )
-                     )
-                   )
-  )
-  
-  server <- function(input, output, session) {
+
+  run_shiny <- shinyApp(build_ui(clean_sport_schedule), build_server(clean_sport_schedule))
+  return(run_shiny)
+}
+
+build_ui <- function(clean_sport_schedule) {
+  return(navbarPage(strong("Sports Unil Plan"), 
+             theme = bslib::bs_theme(bootswatch = "united", 
+                                     base_font = font_google("Montserrat")),
+             
+             sidebarLayout(
+               sidebarPanel(
+                 
+                 selectInput("date", 
+                             label = strong("Choose a date you want to workout"),
+                             choices = unique(clean_sport_schedule$Date),
+                             selected = unique(clean_sport_schedule$Date)[1]),
+                 
+                 selectInput("time", 
+                             label = strong("Choose time"),
+                             choices = c('07:00 – 08:00', 
+                                         '08:00 – 09:00', 
+                                         '09:00 – 10:00', 
+                                         '10:00 – 11:00',
+                                         '11:00 – 12:00', 
+                                         '12:00 – 13:00', 
+                                         '13:00 – 14:00',
+                                         '14:00 – 15:00',
+                                         '15:00 – 16:00',
+                                         '16:00 – 17:00',
+                                         '17:00 – 18:00',
+                                         '18:00 – 19:00',
+                                         '19:00 – 20:00',
+                                         '20:00 – 21:00',
+                                         '21:00 – 22:00',
+                                         '22:00 – 23:00'),
+                             selected = NULL,
+                             multiple = TRUE),
+                 
+                 selectInput("activity", 
+                             label = strong("Choose activity"),
+                             choices = unique(filter(clean_sport_schedule, Date == unique(clean_sport_schedule$Date)[1])$Activity),
+                             multiple = TRUE),
+                 
+                 numericInput("calburn",
+                              label = strong("Calories you want to burn today (calories)"),
+                              value = "1500",
+                              step = 50),
+                 
+                 numericInput("weight",
+                              label = strong("Your weight (kg)"),
+                              value = "50"),
+                 checkboxInput("no_dup", "Do not choose the same activity", FALSE),
+                 actionButton("opt",
+                              label = strong("  Go!"),
+                              icon = icon("dumbbell"))
+               ),
+               
+               mainPanel( 
+                 imageOutput("image", height = "50px", width = "auto"), 
+                 tabsetPanel( type = "tabs",
+                              tabPanel("Optimization",
+                                       helpText("Optimization Result"), 
+                                       tableOutput("optim_table"),
+                                       textOutput("optim_result"),
+                                       fluidRow(
+                                         column(6, br(), br()
+                                                # ,
+                                                # plotlyOutput("calburnplot", 
+                                                #              width = "100%",
+                                                #              height = "350px")
+                                                ),
+                                         column(6,br(), br()
+                                                # , 
+                                                # plotlyOutput("durationplot",
+                                                #              width = "100%",
+                                                #              height = "350px")
+                                                ))
+                              ),
+                              tabPanel("Available Activities"  , 
+                                       helpText("List of available activities with respect to the criteria"), 
+                                       tableOutput("activity_table"))
+                 )
+               )
+             )
+  ))
+}
+
+build_server <- function(clean_sport_schedule) {
+  return(function(input, output, session) {
     
     observe({
       update_date <- input$date
@@ -615,9 +638,14 @@ UnilSports_gui <- function(sport_schedule, met_values, clean_sport_schedule) {
            deleteFile=FALSE)
     })
     
-  }
-  run_shiny <- shinyApp(ui, server)
-  return(run_shiny)
+  })
 }
 
 
+startApp <- function() {
+  source("R/functions.R")
+  sport_schedule <- webscrape_sports()
+  met_values     <- webscrape_MET()
+  clean_sport_schedule <- get_cleanschedule_met(sport_schedule,met_values)
+  UnilSports_gui(clean_sport_schedule)
+}
