@@ -417,8 +417,6 @@ pie_optim <- function(optim_plot){
 
 #' @title Shiny Application function for UnilSports package
 #' @description This is a function that provides a dashboard for users to input their desired time tables, classes, calories burned to get a set of classes that adhere to the respective requirements
-#' @param sport_schedule 
-#' @param met_values 
 #' @param clean_sport_schedule 
 #' @return  a shiny web application dashboard that provides the user with the available sports classes based on ceertain parameters entered by the user.
 #' @export
@@ -445,6 +443,15 @@ UnilSports_gui <- function(clean_sport_schedule) {
   return(run_shiny)
 }
 
+
+
+#' @title User Interface function for UnilSports Shiny Application
+#' @description This is a function that builds a user interface for the UnilSports shiny application. This function is then used as the first parameter of the UnilSports_gui function. 
+#' @param clean_sport_schedule 
+#' @return  a shiny web application dashboard that builds a user interface for the UnilSports shiny application. This function is then used as one of  the parameters of the  UnilSports_gui function. 
+#' @export
+#' @examples
+#' build_ui(clean_sport_schedule)
 build_ui <- function(clean_sport_schedule) {
   return(navbarPage(strong("Sports Unil Plan"), 
              theme = bslib::bs_theme(bootswatch = "united", 
@@ -524,6 +531,18 @@ build_ui <- function(clean_sport_schedule) {
   ))
 }
 
+
+
+
+
+
+#' @title Server function for UnilSports Shiny Application
+#' @description This is a function that builds a server for the UnilSports shiny application. This function is then used as the secoond parameter in the  UnilSports_gui function. 
+#' @param clean_sport_schedule 
+#' @return  a shiny server output 
+#' @export
+#' @examples
+#' build_server(clean_sport_schedule)
 build_server <- function(clean_sport_schedule) {
   return(function(input, output, session) {
     
@@ -638,6 +657,14 @@ build_server <- function(clean_sport_schedule) {
 }
 
 
+
+
+#' @title Start Function for Shiny Application 
+#' @description This is a function that automatically runs the shiny function created and opens the dashboard for the user
+#' @return  A dashboard for the user to interact with
+#' @export
+#' @examples
+#' startApp()
 startApp <- function() {
   source("R/functions.R")
   sport_schedule <- webscrape_sports()

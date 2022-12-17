@@ -4,13 +4,9 @@
 \alias{UnilSports_gui}
 \title{Shiny Application function for UnilSports package}
 \usage{
-UnilSports_gui(sport_schedule, met_values, clean_sport_schedule)
+UnilSports_gui(clean_sport_schedule)
 }
 \arguments{
-\item{sport_schedule}{}
-
-\item{met_values}{}
-
 \item{clean_sport_schedule}{}
 }
 \value{
@@ -24,5 +20,5 @@ Run the below functions from the UnilSports package
 sport_schedule <- webscrape_sports()
 met_values     <- webscrape_MET()
 clean_sport_schedule <- get_cleanschedule_met(sport_schedule,met_values)
-UnilSports_gui(sport_schedule, met_values, clean_sport_schedule)
+UnilSports_gui(clean_sport_schedule)
 }
