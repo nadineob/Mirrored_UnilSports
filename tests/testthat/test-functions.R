@@ -61,12 +61,3 @@ test_that("pie_optim function contains correct data", {
   expect_equal(class(optim_plot), "data.frame")
   expect_equal(class(p1), "list")
 })
-
-library(shinytest2)
-test_that("UnilSports app works", {
-  # Don't run these tests on the CRAN build servers
-  skip_on_cran()
-  
-  test_app(app_dir = 'inst/UnilSports_int', check_setup = FALSE)
-})
-
