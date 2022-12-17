@@ -427,7 +427,7 @@ pie_optim <- function(optim_plot){
 #' sport_schedule <- webscrape_sports()
 #' met_values     <- webscrape_MET()
 #' clean_sport_schedule <- get_cleanschedule_met(sport_schedule,met_values)
-#' UnilSports_gui(sport_schedule, met_values, clean_sport_schedule)
+#' UnilSports_gui(clean_sport_schedule)
 UnilSports_gui <- function(clean_sport_schedule) {
 
   library(shiny)
@@ -506,18 +506,14 @@ build_ui <- function(clean_sport_schedule) {
                                        tableOutput("optim_table"),
                                        textOutput("optim_result"),
                                        fluidRow(
-                                         column(6, br(), br()
-                                                # ,
-                                                # plotlyOutput("calburnplot", 
-                                                #              width = "100%",
-                                                #              height = "350px")
-                                                ),
-                                         column(6,br(), br()
-                                                # , 
-                                                # plotlyOutput("durationplot",
-                                                #              width = "100%",
-                                                #              height = "350px")
-                                                ))
+                                         column(6, br(), br(),
+                                                plotlyOutput("calburnplot",
+                                                             width = "100%",
+                                                             height = "350px")),
+                                         column(6,br(), br(),
+                                                plotlyOutput("durationplot",
+                                                             width = "100%",
+                                                             height = "350px")))
                               ),
                               tabPanel("Available Activities"  , 
                                        helpText("List of available activities with respect to the criteria"), 

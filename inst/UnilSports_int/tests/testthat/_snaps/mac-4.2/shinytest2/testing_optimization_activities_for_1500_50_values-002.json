@@ -1,0 +1,386 @@
+{
+  "input": {
+    ".clientValue-default-plotlyCrosstalkOpts": {
+      "on": "plotly_click",
+      "persistent": false,
+      "dynamic": false,
+      "selectize": false,
+      "opacityDim": 0.2,
+      "selected": {
+        "opacity": 1
+      },
+      "debounce": 0,
+      "color": [
+
+      ]
+    },
+    "activity": [
+      "Basketball / Pratique libre à l'extérieur",
+      "Football / Pratique libre",
+      "Musculation connectée / 1. Introduction"
+    ],
+    "calburn": 1500,
+    "date": "2022-12-20",
+    "no_dup": true,
+    "opt": 1,
+    "plotly_afterplot-A": "\"calburnplot\"",
+    "time": [
+      "09:00 – 10:00",
+      "11:00 – 12:00",
+      "12:00 – 13:00",
+      "14:00 – 15:00"
+    ],
+    "weight": 50
+  },
+  "output": {
+    "calburnplot": {
+      "x": {
+        "layout": {
+          "margin": {
+            "b": 40,
+            "l": 60,
+            "t": 25,
+            "r": 10
+          },
+          "title": "<b> Calorie Burn <b>",
+          "xaxis": {
+            "showgrid": false,
+            "zeroline": false,
+            "showticklabels": false
+          },
+          "yaxis": {
+            "showgrid": false,
+            "zeroline": false,
+            "showticklabels": false
+          },
+          "legend": {
+            "orientation": "h"
+          },
+          "hovermode": "closest",
+          "showlegend": true
+        },
+        "source": "A",
+        "config": {
+          "modeBarButtonsToAdd": [
+            "hoverclosest",
+            "hovercompare"
+          ],
+          "showSendToCloud": false
+        },
+        "data": [
+          {
+            "labels": [
+              "Musculation connectée / 1. Introduction",
+              "Football / Pratique libre",
+              "Basketball / Pratique libre à l'extérieur"
+            ],
+            "values": [
+              262.5,
+              420,
+              341.25
+            ],
+            "type": "pie",
+            "marker": {
+              "color": "rgba(31,119,180,1)",
+              "line": {
+                "color": "rgba(255,255,255,1)"
+              }
+            },
+            "frame": null
+          }
+        ],
+        "highlight": {
+          "on": "plotly_click",
+          "persistent": false,
+          "dynamic": false,
+          "selectize": false,
+          "opacityDim": 0.2,
+          "selected": {
+            "opacity": 1
+          },
+          "debounce": 0
+        },
+        "shinyEvents": [
+          "plotly_hover",
+          "plotly_click",
+          "plotly_selected",
+          "plotly_relayout",
+          "plotly_brushed",
+          "plotly_brushing",
+          "plotly_clickannotation",
+          "plotly_doubleclick",
+          "plotly_deselect",
+          "plotly_afterplot",
+          "plotly_sunburstclick"
+        ],
+        "base_url": "https://plot.ly"
+      },
+      "evals": [
+
+      ],
+      "jsHooks": [
+
+      ],
+      "deps": [
+        {
+          "name": "setprototypeof",
+          "version": "0.1",
+          "src": {
+            "href": "setprototypeof-0.1"
+          },
+          "meta": null,
+          "script": "setprototypeof.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        },
+        {
+          "name": "typedarray",
+          "version": "0.1",
+          "src": {
+            "href": "typedarray-0.1"
+          },
+          "meta": null,
+          "script": "typedarray.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        },
+        {
+          "name": "jquery",
+          "version": "3.5.1",
+          "src": {
+            "href": "jquery-3.5.1"
+          },
+          "meta": null,
+          "script": "jquery.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "crosstalk",
+          "version": "1.2.0",
+          "src": {
+            "href": "crosstalk-1.2.0"
+          },
+          "meta": null,
+          "script": "js/crosstalk.min.js",
+          "stylesheet": "css/crosstalk.min.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "plotly-htmlwidgets-css",
+          "version": "2.11.1",
+          "src": {
+            "href": "plotly-htmlwidgets-css-2.11.1"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "plotly-htmlwidgets.css",
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        },
+        {
+          "name": "plotly-main",
+          "version": "2.11.1",
+          "src": {
+            "href": "plotly-main-2.11.1"
+          },
+          "meta": null,
+          "script": "plotly-latest.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        }
+      ]
+    },
+    "durationplot": {
+      "x": {
+        "layout": {
+          "margin": {
+            "b": 40,
+            "l": 60,
+            "t": 25,
+            "r": 10
+          },
+          "title": "<b> Exercise Duration (min) <b>",
+          "xaxis": {
+            "showgrid": false,
+            "zeroline": false,
+            "showticklabels": false
+          },
+          "yaxis": {
+            "showgrid": false,
+            "zeroline": false,
+            "showticklabels": false
+          },
+          "legend": {
+            "orientation": "h"
+          },
+          "hovermode": "closest",
+          "showlegend": true
+        },
+        "source": "A",
+        "config": {
+          "modeBarButtonsToAdd": [
+            "hoverclosest",
+            "hovercompare"
+          ],
+          "showSendToCloud": false
+        },
+        "data": [
+          {
+            "labels": [
+              "Musculation connectée / 1. Introduction",
+              "Football / Pratique libre",
+              "Basketball / Pratique libre à l'extérieur"
+            ],
+            "values": [
+              60,
+              60,
+              60
+            ],
+            "type": "pie",
+            "marker": {
+              "color": "rgba(31,119,180,1)",
+              "line": {
+                "color": "rgba(255,255,255,1)"
+              }
+            },
+            "frame": null
+          }
+        ],
+        "highlight": {
+          "on": "plotly_click",
+          "persistent": false,
+          "dynamic": false,
+          "selectize": false,
+          "opacityDim": 0.2,
+          "selected": {
+            "opacity": 1
+          },
+          "debounce": 0
+        },
+        "shinyEvents": [
+          "plotly_hover",
+          "plotly_click",
+          "plotly_selected",
+          "plotly_relayout",
+          "plotly_brushed",
+          "plotly_brushing",
+          "plotly_clickannotation",
+          "plotly_doubleclick",
+          "plotly_deselect",
+          "plotly_afterplot",
+          "plotly_sunburstclick"
+        ],
+        "base_url": "https://plot.ly"
+      },
+      "evals": [
+
+      ],
+      "jsHooks": [
+
+      ],
+      "deps": [
+        {
+          "name": "setprototypeof",
+          "version": "0.1",
+          "src": {
+            "href": "setprototypeof-0.1"
+          },
+          "meta": null,
+          "script": "setprototypeof.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        },
+        {
+          "name": "typedarray",
+          "version": "0.1",
+          "src": {
+            "href": "typedarray-0.1"
+          },
+          "meta": null,
+          "script": "typedarray.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        },
+        {
+          "name": "jquery",
+          "version": "3.5.1",
+          "src": {
+            "href": "jquery-3.5.1"
+          },
+          "meta": null,
+          "script": "jquery.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "crosstalk",
+          "version": "1.2.0",
+          "src": {
+            "href": "crosstalk-1.2.0"
+          },
+          "meta": null,
+          "script": "js/crosstalk.min.js",
+          "stylesheet": "css/crosstalk.min.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "plotly-htmlwidgets-css",
+          "version": "2.11.1",
+          "src": {
+            "href": "plotly-htmlwidgets-css-2.11.1"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "plotly-htmlwidgets.css",
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        },
+        {
+          "name": "plotly-main",
+          "version": "2.11.1",
+          "src": {
+            "href": "plotly-main-2.11.1"
+          },
+          "meta": null,
+          "script": "plotly-latest.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        }
+      ]
+    },
+    "image": {
+      "align": "right",
+      "height": "100%",
+      "width": "auto",
+      "deleteFile": false
+    },
+    "optim_result": "Cannot reach the calorie burn target. The optimizer returns the solution with the highest possible calorie burn. Total Exercise Duration: 180 min, Total Calorie Burn: 1024",
+    "optim_table": "<table  class = 'table shiny-table table-hover spacing-s' style = 'width:auto;'>\n<thead> <tr> <th style='text-align: right;'> Start Time <\/th> <th style='text-align: right;'> End Time <\/th> <th style='text-align: right;'> Duration (min) <\/th> <th style='text-align: left;'> Activity <\/th> <th style='text-align: left;'> Location <\/th> <th style='text-align: right;'> Calburn <\/th>  <\/tr> <\/thead> <tbody>\n  <tr> <td align=\"right\"> 9.00 <\/td> <td align=\"right\"> 10.00 <\/td> <td align=\"right\"> 60.00 <\/td> <td> Football / Pratique libre <\/td> <td> Rugby-Foot Chamberonne 1/2 terrain sud <\/td> <td align=\"right\"> 420.00 <\/td> <\/tr>\n  <tr> <td align=\"right\"> 11.15 <\/td> <td align=\"right\"> 12.15 <\/td> <td align=\"right\"> 60.00 <\/td> <td> Musculation connectée / 1. Introduction <\/td> <td> SOS1-musculation connectée <\/td> <td align=\"right\"> 262.50 <\/td> <\/tr>\n  <tr> <td align=\"right\"> 14.00 <\/td> <td align=\"right\"> 15.00 <\/td> <td align=\"right\"> 60.00 <\/td> <td> Basketball / Pratique libre à l'extérieur <\/td> <td> Basket Entier <\/td> <td align=\"right\"> 341.25 <\/td> <\/tr>\n   <\/tbody> <\/table>"
+  },
+  "export": {
+
+  }
+}
