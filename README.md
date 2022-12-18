@@ -44,17 +44,6 @@ Further information about MET can be found in [Using Metabolic Equivalent for Ta
 
 ## Optimization Function
 
----
-title: "test"
-output: html_document
-date: "2022-12-18"
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-## Optimization Function
-
 Objective function: minimize the number of chosen activities
 $$min\sum_{i=1}^N x_i$$
 
