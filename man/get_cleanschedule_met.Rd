@@ -14,6 +14,5 @@ A function that cleans the output (data rame) extracted from the webscrape_sport
     This function maps the MET values into the data in order to calculate the calorie burn amount per activity.
 }
 \examples{
-Use the data frame retrieved from the webscrape_sports function
 get_cleanschedule_met()
 }

@@ -13,6 +13,5 @@ A data frame containing the MET values per sport activity.
 A function that returns the MET values table of more than 800 activities webscrapped from the golf.procon.org website.
 }
 \examples{
-Run the function as it is without any parameter
 webscrape_MET()
 }

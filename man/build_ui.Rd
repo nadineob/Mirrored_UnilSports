@@ -7,7 +7,7 @@
 build_ui(clean_sport_schedule)
 }
 \arguments{
-\item{clean_sport_schedule}{}
+\item{clean_sport_schedule}{The data frame output from the get_cleanschedule_met. The output of this function should not be modified, so this function can apply the integer optimization technique properly.}
 }
 \value{
 a shiny web application dashboard that builds a user interface for the UnilSports shiny application. This function is then used as one of  the parameters of the  UnilSports_gui function.

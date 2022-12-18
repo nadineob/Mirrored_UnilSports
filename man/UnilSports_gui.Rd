@@ -7,18 +7,14 @@
 UnilSports_gui(clean_sport_schedule)
 }
 \arguments{
-\item{clean_sport_schedule}{}
+\item{clean_sport_schedule}{The data frame output from the get_cleanschedule_met. The output of this function should not be modified, so this function can apply the integer optimization technique properly.}
 }
 \value{
-a shiny web application dashboard that provides the user with the available sports classes based on ceertain parameters entered by the user.
+a shiny web application dashboard that provides the user with the available sports classes based on certain parameters entered by the user.
 }
 \description{
 This is a function that provides a dashboard for users to input their desired time tables, classes, calories burned to get a set of classes that adhere to the respective requirements
 }
 \examples{
-Run the below functions from the UnilSports package
-sport_schedule <- webscrape_sports()
-met_values     <- webscrape_MET()
 clean_sport_schedule <- get_cleanschedule_met(sport_schedule,met_values)
-UnilSports_gui(clean_sport_schedule)
 }

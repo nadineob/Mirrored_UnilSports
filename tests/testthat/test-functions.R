@@ -13,10 +13,8 @@ test_that("MET webscraping function returns a class of dataframe", {
 })
 
 test_that("function 3 behaves as expected", {
-  load("mapping.rda")
-  load("met_values.rda") 
-  load("sport_schedule.rda")
-  load("test_output.rda")
+  met_values
+  sport_schedule
   
   output <- get_cleanschedule_met(sport_schedule,met_values)
   expect_true(all.equal(output,clean_sport_schedule))
@@ -33,7 +31,7 @@ test_that("optimization function returns a list, has a table of 10 columns and e
   time <- c('07:00 – 08:00', '08:00 – 09:00', '12:00 – 13:00', '13:00 – 14:00',
             '17:00 – 18:00', '18:00 – 19:00', '19:00 – 20:00')
   flag_no_duplicate_activities <- 1
-  load(here::here("data/clean_sport_schedule.rda"))
+  clean_sport_schedule
   optimize_output <- optimize_schedule(clean_sport_schedule, date, activity, time, calburn, weight,flag_no_duplicate_activities)
   
   expect_equal(class(optimize_output), "list")
@@ -52,7 +50,7 @@ test_that("pie_optim function contains correct data", {
   time <- c('07:00 – 08:00', '08:00 – 09:00', '12:00 – 13:00', '13:00 – 14:00',
             '17:00 – 18:00', '18:00 – 19:00', '19:00 – 20:00')
   flag_no_duplicate_activities <- 1
-  load(here::here("data/clean_sport_schedule.rda"))
+  clean_sport_schedule
   optimize_output <- optimize_schedule(clean_sport_schedule, date, activity, time, calburn, weight,flag_no_duplicate_activities)
   optim_plot <- optimize_output$table_result
   p1 <- pie_optim(optim_plot) 

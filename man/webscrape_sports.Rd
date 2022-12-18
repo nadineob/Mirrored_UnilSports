@@ -7,17 +7,14 @@
 webscrape_sports(days = 7)
 }
 \arguments{
-\item{days}{The number of days that you want to retrieve from the Unil Sports Center website}
-
-\item{...}{A parameter that allows the user to enter additional arguments that are not defined in the function}
+\item{days}{The number of days that you want to retrieve from the Unil Sports Center website. The defaut number of days is 7.}
 }
 \value{
 A data frame containing the sports schedule of the number of days selected
 }
 \description{
-A function that returns the sports table schedule from the Unil Sports Center
+A function that returns the sports table schedule from the Unil Sports Center.
 }
 \examples{
-# Run the function as it is
 webscrap_sports()
 }

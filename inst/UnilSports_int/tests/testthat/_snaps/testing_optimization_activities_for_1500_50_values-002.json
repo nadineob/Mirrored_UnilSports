@@ -14,11 +14,7 @@
 
       ]
     },
-    "activity": [
-      "Basketball / Pratique libre à l'extérieur",
-      "Football / Pratique libre",
-      "Musculation connectée / 1. Introduction"
-    ],
+    "activity": "Musculation connectée / 1. Introduction",
     "calburn": 1500,
     "date": "2022-12-20",
     "no_dup": true,
@@ -69,16 +65,8 @@
         },
         "data": [
           {
-            "labels": [
-              "Musculation connectée / 1. Introduction",
-              "Football / Pratique libre",
-              "Basketball / Pratique libre à l'extérieur"
-            ],
-            "values": [
-              262.5,
-              420,
-              341.25
-            ],
+            "labels": "Musculation connectée / 1. Introduction",
+            "values": 262.5,
             "type": "pie",
             "marker": {
               "color": "rgba(31,119,180,1)",
@@ -238,16 +226,8 @@
         },
         "data": [
           {
-            "labels": [
-              "Musculation connectée / 1. Introduction",
-              "Football / Pratique libre",
-              "Basketball / Pratique libre à l'extérieur"
-            ],
-            "values": [
-              60,
-              60,
-              60
-            ],
+            "labels": "Musculation connectée / 1. Introduction",
+            "values": 60,
             "type": "pie",
             "marker": {
               "color": "rgba(31,119,180,1)",
@@ -377,8 +357,8 @@
       "width": "auto",
       "deleteFile": false
     },
-    "optim_result": "Cannot reach the calorie burn target. The optimizer returns the solution with the highest possible calorie burn. Total Exercise Duration: 180 min, Total Calorie Burn: 1024",
-    "optim_table": "<table  class = 'table shiny-table table-hover spacing-s' style = 'width:auto;'>\n<thead> <tr> <th style='text-align: right;'> Start Time <\/th> <th style='text-align: right;'> End Time <\/th> <th style='text-align: right;'> Duration (min) <\/th> <th style='text-align: left;'> Activity <\/th> <th style='text-align: left;'> Location <\/th> <th style='text-align: right;'> Calburn <\/th>  <\/tr> <\/thead> <tbody>\n  <tr> <td align=\"right\"> 9.00 <\/td> <td align=\"right\"> 10.00 <\/td> <td align=\"right\"> 60.00 <\/td> <td> Football / Pratique libre <\/td> <td> Rugby-Foot Chamberonne 1/2 terrain sud <\/td> <td align=\"right\"> 420.00 <\/td> <\/tr>\n  <tr> <td align=\"right\"> 11.15 <\/td> <td align=\"right\"> 12.15 <\/td> <td align=\"right\"> 60.00 <\/td> <td> Musculation connectée / 1. Introduction <\/td> <td> SOS1-musculation connectée <\/td> <td align=\"right\"> 262.50 <\/td> <\/tr>\n  <tr> <td align=\"right\"> 14.00 <\/td> <td align=\"right\"> 15.00 <\/td> <td align=\"right\"> 60.00 <\/td> <td> Basketball / Pratique libre à l'extérieur <\/td> <td> Basket Entier <\/td> <td align=\"right\"> 341.25 <\/td> <\/tr>\n   <\/tbody> <\/table>"
+    "optim_result": "Cannot reach the calorie burn target. The optimizer returns the solution with the highest possible calorie burn. Total Exercise Duration: 60 min, Total Calorie Burn: 262",
+    "optim_table": "<table  class = 'table shiny-table table-hover spacing-s' style = 'width:auto;'>\n<thead> <tr> <th style='text-align: right;'> Start Time <\/th> <th style='text-align: right;'> End Time <\/th> <th style='text-align: right;'> Duration (min) <\/th> <th style='text-align: left;'> Activity <\/th> <th style='text-align: left;'> Location <\/th> <th style='text-align: right;'> Calburn <\/th>  <\/tr> <\/thead> <tbody>\n  <tr> <td align=\"right\"> 11.15 <\/td> <td align=\"right\"> 12.15 <\/td> <td align=\"right\"> 60.00 <\/td> <td> Musculation connectée / 1. Introduction <\/td> <td> SOS1-musculation connectée <\/td> <td align=\"right\"> 262.50 <\/td> <\/tr>\n   <\/tbody> <\/table>"
   },
   "export": {
 

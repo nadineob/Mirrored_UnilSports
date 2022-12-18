@@ -7,7 +7,7 @@
 build_server(clean_sport_schedule)
 }
 \arguments{
-\item{clean_sport_schedule}{}
+\item{clean_sport_schedule}{The data frame output from the get_cleanschedule_met. The output of this function should not be modified, so this function can apply the integer optimization technique properly.}
 }
 \value{
 a shiny server output
