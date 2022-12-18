@@ -171,19 +171,9 @@ get_cleanschedule_met <- function(sport_schedule,met_values) {
 #'     to the parameters entered.  
 #'     This optimization function calculates the calaory burn subject to 3 
 #'     constraints: 
-#'     1. The total calorie burn must exceed the target calorie Equation: 
-#'     sum(x_i*cal_i) >= calburn where cal_i is the calorie burn of activity 
-#'    i and calburn is the target calorie.
-#'     2. No overlapping time slots. The optimizer won't select 2 or more 
-#'     activities that occur at the same time. For example, if activity A 
-#'     starts at 8.00 and ends at 9.00 and activity B starts at 8.45 and ends 
-#'     at 9.15, they cannot be selected together (i.e. only one of them can be 
-#'     selected) Equation: x_a + x_b + x_c +... <= 1 for all overlapping time 
-#'     intervals if activity a, b, c,... have overlapping time slots. 
-#'     3. Do not select the same activity.The same activity cannot be selected.
-#'     For example, if there are several Football sessions, only 1 Football
-#'     session can be selected. Equation: x_i + x_j + x_k + ... <= 1 for all
-#'     duplicate activities if activity i, j, k,... are the same activity
+#'     1. The total calorie burn must exceed the target calorie Equation: sum(x_i*cal_i) >= calburn where cal_i is the calorie burn of activity i and calburn is the target calorie.
+#'     2. No overlapping time slots. The optimizer won't select 2 or more activities that occur at the same time. For example, if activity A starts at 8.00 and ends at 9.00 and activity B starts at 8.45 and ends at 9.15, they cannot be selected together (i.e. only one of them can be selected) Equation: x_a + x_b + x_c +... <= 1 for all overlapping time intervals if activity a, b, c,... have overlapping time slots. 
+#'     3. Do not select the same activity.The same activity cannot be selected. For example, if there are several Football sessions, only 1 Football session can be selected. Equation: x_i + x_j + x_k + ... <= 1 for all duplicate activities if activity i, j, k,... are the same activity
 #' @param clean_sport_schedule The data frame output from the 
 #'      get_cleanschedule_met. The output of this function should not be 
 #'      modified, so this function can apply the integer optimization technique 
