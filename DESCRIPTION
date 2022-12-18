@@ -1,5 +1,5 @@
 Package: UnilSports
-Depends: R (>= 4.2.1)
+Depends: R (>= 4.2.0)
 Type: Package
 Title: Create a Dashboard with Shiny Apps for sports schedules and calorie burn
 Version: 0.1.0
@@ -17,17 +17,10 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.2
 Imports: 
-    here,
-    rvest,
-    tidyverse,
-    lubridate,
-    dplyr,
-    readxl, 
-    ggplot2,
-    bslib, 
-    plotly, 
-    shiny,
-    shinythemes
+    rvest, tidyverse, lubridate, dplyr, ggplot2, bslib,  plotly,  sass, shiny, shinythemes,
+    data.table, lpSolve, rlang, shinytest2
 Suggests: 
+    markdown,
+    knitr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

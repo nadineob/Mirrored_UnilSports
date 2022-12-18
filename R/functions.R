@@ -1,7 +1,24 @@
+utils::globalVariables(c(
+  "Activity", "Duration_min", "End", "time", "Location", "METs", "Start", "time", "Timetable", "V1",
+  "V1_minutes", "V2", "V2_minutes", "activity_selected.Activity",
+  "activity_selected.Date", "activity_selected.Duration_min",
+  "activity_selected.End.time", "activity_selected.Location",
+  "activity_selected.METs", "activity_selected.Start.time",
+  "activity_selected.calburn", "activity_selected.p", "activity_selected.time",
+  "group", "mapping", "propb", "propd", "table_result.Activity", "table_result.Date",
+  "table_result.Duration_min", "table_result.End.time", "table_result.Location",
+  "table_result.METs", "table_result.Start.time", "table_result.calburn",
+  "table_result.p", "table_result.time", "time", "value_burn", "value_duration",
+  "End time", "Start time"
+))
+
 #' @title Webscraping function for Sports Schedule
 #' @description A function that returns the sports table schedule from the Unil Sports Center.
 #' @param days The number of days that you want to retrieve from the Unil Sports Center website. The defaut number of days is 7. 
 #' @return  A data frame containing the sports schedule of the number of days selected
+#' @import "rvest"
+#' @import "tidyverse"
+#' @import "lubridate"
 #' @export
 #' @examples
 #' webscrape_sports()
@@ -86,6 +103,8 @@ webscrape_sports <- function(days = 7) {
 #' @title Webscraping function for MET Values
 #' @description A function that returns the MET values table of more than 800 activities webscrapped from the golf.procon.org website.
 #' @return  A data frame containing the MET values per sport activity.
+#' @import "rvest"
+#' @import "tidyverse"
 #' @export
 #' @examples
 #' webscrape_MET()
@@ -119,13 +138,13 @@ webscrape_MET <- function() {
 #' @param sport_schedule Data frame containing the sports schedule of the number of days selected obtained when running webscrape_sports function
 #' @param met_values Data frame containing the MET values per sport activity obtained when running webscrape_MET function.
 #' @return  A data frame containing the activities per day with their correspondingly Met values.
+#' @import "dplyr"
 #' @export
 #' @examples
 #' get_cleanschedule_met()
 get_cleanschedule_met <- function(sport_schedule,met_values) {
   library(dplyr)
-  #library(here)
-  library(UnilSports) #Mandy add
+  library(UnilSports)
   if(missing(sport_schedule)) {
     sport_schedule <- UnilSports::sport_schedule
   }
@@ -189,6 +208,10 @@ get_cleanschedule_met <- function(sport_schedule,met_values) {
 #' @return returns a list of 5 items, the optim_result, table_result. 
 #'      It has all the details of the best activity/ies, activity_selected, 
 #'      totalcal, and totalduration.  
+#' @import "lpSolve"
+#' @import "data.table"
+#' @import "dplyr"
+#' @import "rlang"
 #' @export
 #' @examples
 #' library(UnilSports)
@@ -198,7 +221,7 @@ get_cleanschedule_met <- function(sport_schedule,met_values) {
 #'              'Cirque')
 #' weight <- 50
 #' time <- c('07:00 \u2013 08:00', '08:00 \u2013 09:00', '12:00 \u2013 13:00', 
-#'     '13:00 \u2013 14:00', 17:00 \u2013 18:00', '18:00 \u2013 19:00', 
+#'     '13:00 \u2013 14:00', '17:00 \u2013 18:00', '18:00 \u2013 19:00', 
 #'     '19:00 \u2013 20:00')
 #' flag_no_duplicate_activities <- 1
 #' clean_sport_schedule <- UnilSports::clean_sport_schedule
@@ -360,6 +383,9 @@ optimize_schedule <- function(clean_sport_schedule, date, activity, time, calbur
 #' @param optim_plot the output that is obtained in the table_result section of
 #'     the optimize_schedule function output. 
 #' @return  a pie chart of the table_result
+#' @import "plotly"
+#' @import "ggplot2"
+#' @import "dplyr"
 #' @export
 #' @examples
 #' library(UnilSports)
@@ -391,9 +417,9 @@ pie_optim <- function(optim_plot){
   )
   
   data <- data %>% 
-    arrange(desc(group)) %>%
-    mutate(propb = value_burn / sum(data$value_burn) *100) %>%
-    mutate(yposb = cumsum(propb)- 0.5*propb) 
+    dplyr::arrange(desc(group)) %>%
+    dplyr::mutate(propb = value_burn / sum(data$value_burn) *100) %>%
+    dplyr::mutate(yposb = cumsum(propb)- 0.5*propb) 
   
   data <- data %>% 
     arrange(desc(group)) %>%
@@ -428,6 +454,11 @@ pie_optim <- function(optim_plot){
 #' @description This is a function that builds a user interface for the UnilSports shiny application. This function is then used as the first parameter of the UnilSports_gui function. 
 #' @param clean_sport_schedule The data frame output from the get_cleanschedule_met. The output of this function should not be modified, so this function can apply the integer optimization technique properly.
 #' @return  a shiny web application dashboard that builds a user interface for the UnilSports shiny application. This function is then used as one of  the parameters of the  UnilSports_gui function. 
+#' @import "shiny"
+#' @import "shinythemes"
+#' @import "dplyr"
+#' @import "plotly"
+#' @import "bslib"
 #' @export
 #' @examples
 #' build_ui(clean_sport_schedule)
@@ -527,6 +558,11 @@ build_ui <- function(clean_sport_schedule) {
 #' @description This is a function that builds a server for the UnilSports shiny application. This function is then used as the secoond parameter in the  UnilSports_gui function. 
 #' @param clean_sport_schedule The data frame output from the get_cleanschedule_met. The output of this function should not be modified, so this function can apply the integer optimization technique properly.
 #' @return  a shiny server output 
+#' @import "shiny"
+#' @import "shinythemes"
+#' @import "dplyr"
+#' @import "plotly"
+#' @import "bslib"
 #' @export
 #' @examples
 #' build_server(clean_sport_schedule)
@@ -594,7 +630,7 @@ build_server <- function(clean_sport_schedule) {
     output$optim_table <- renderTable(hover = T,{
       
       data.frame(optimize_output()[2]) %>%
-        select(-c(table_result.Date, table_result.time, table_result.METs, table_result.p)) %>% 
+        select(-c(`table_result.Date`, table_result.time, table_result.METs, table_result.p)) %>% 
         rename( `Start Time` = table_result.Start.time,
                 `End Time` = table_result.End.time,
                 `Duration (min)` = table_result.Duration_min,
@@ -655,6 +691,11 @@ build_server <- function(clean_sport_schedule) {
 #' @description This is a function that provides a dashboard for users to input their desired time tables, classes, calories burned to get a set of classes that adhere to the respective requirements
 #' @param clean_sport_schedule The data frame output from the get_cleanschedule_met. The output of this function should not be modified, so this function can apply the integer optimization technique properly.
 #' @return  a shiny web application dashboard that provides the user with the available sports classes based on certain parameters entered by the user.
+#' @import "shiny"
+#' @import "shinythemes"
+#' @import "dplyr"
+#' @import "plotly"
+#' @import "bslib"
 #' @export
 #' @examples
 #' clean_sport_schedule <- get_cleanschedule_met(sport_schedule,met_values)

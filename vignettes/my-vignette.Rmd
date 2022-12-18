@@ -67,7 +67,7 @@ webscrape_MET()
   
 ```{r,echo=TRUE}
 options(tibble.print_min = 4L, tibble.print_max = 4L)
-get_cleanschedule_met(sport_schedule,met_values,mapping)
+get_cleanschedule_met(sport_schedule,met_values)
 ```
 
 ## Evaluating the calories burnt at each activity `optimize_schedule()`
@@ -109,7 +109,7 @@ This function evaluates the calorie burn per activity and time according to the 
    
 ### Example
 ```{r,echo=TRUE}
-cleanschedule <- get_cleanschedule_met(sport_schedule,met_values,mapping)
+cleanschedule <- get_cleanschedule_met(sport_schedule,met_values)
  calburn <- 500
 date <- c('2022-12-14')
 activity <- c('Aquagym', 'Zumba', 'Pilates', 'Agrès',
