@@ -45,7 +45,7 @@ Further information about MET can be found in [Using Metabolic Equivalent for Ta
 ### Optimization Function
 
 Objective function: minimize the number of chosen activities
-          Equation: min sum(x_i)
+          Equation: $$ min \sum_{i = 1}^{N}x_{i} $$
                     where x_i = 1 if the activity i is chosen and 0 if it's not chosen
 Constraints:
 1) The total calorie burn must exceed the target calorie
