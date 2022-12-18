@@ -1,0 +1,12 @@
+#' A mapping table between activity names used in the UNIL sport center and in the met_values table
+#'
+#' This table is used for mapping the activity names in the UNIL sport center and the sub-activity/specific motion names in the met_values table
+#'
+#' @format A data frame with 171 observations and 2 variables:
+#' \describe{
+#'   \item{Activity}{Activity name in the UNIL sport center}
+#'   \item{Specific Motion}{Sub-activity/Specific Motion in the MET table} 
+#' }
+#' @source \url{https://sport.unil.ch/, https://golf.procon.org/met-values-for-800-activities/}
+"mapping"
+

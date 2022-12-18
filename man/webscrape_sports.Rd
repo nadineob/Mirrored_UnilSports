@@ -16,5 +16,5 @@ A data frame containing the sports schedule of the number of days selected
 A function that returns the sports table schedule from the Unil Sports Center.
 }
 \examples{
-webscrap_sports()
+webscrape_sports()
 }

@@ -7,15 +7,18 @@
 pie_optim(optim_plot)
 }
 \arguments{
-\item{optim_plot}{the output that is obtained in the table_result section of the optimize_schedule function output.}
+\item{optim_plot}{the output that is obtained in the table_result section of
+the optimize_schedule function output.}
 }
 \value{
 a pie chart of the table_result
 }
 \description{
-a function that prints a pie chart reflecting the output of the optimization function
+a function that prints a pie chart reflecting the output of the 
+    optimization function
 }
 \examples{
+library(UnilSports)
 calburn <- 500
 date <- c('2022-12-14')
 activity <- c('Aquagym', 'Zumba', 'Pilates',
@@ -25,8 +28,9 @@ weight <- 50
 time <- c('07:00 \u2013 08:00', '08:00 \u2013 09:00', '12:00 \u2013 13:00', '13:00 \u2013 14:00',
          '17:00 \u2013 18:00', '18:00 \u2013 19:00', '19:00 \u2013 20:00')
 flag_no_duplicate_activities <- 1
-load(here::here("data/clean_sport_schedule.rda"))
-optimize_output <- optimize_schedule(clean_sport_schedule, date, activity, time, calburn, weight,flag_no_duplicate_activities)
+clean_sport_schedule <- UnilSports::clean_sport_schedule
+optimize_output <- optimize_schedule(clean_sport_schedule, date, activity, 
+    time, calburn, weight,flag_no_duplicate_activities)
 optim_plot <- optimize_output$table_result
 pie_optim(optim_plot) #call function
 }

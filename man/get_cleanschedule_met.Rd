@@ -6,6 +6,11 @@
 \usage{
 get_cleanschedule_met(sport_schedule, met_values)
 }
+\arguments{
+\item{sport_schedule}{Data frame containing the sports schedule of the number of days selected obtained when running webscrape_sports function}
+
+\item{met_values}{Data frame containing the MET values per sport activity obtained when running webscrape_MET function.}
+}
 \value{
 A data frame containing the activities per day with their correspondingly Met values.
 }

@@ -6,6 +6,7 @@ library(dplyr)
 library(plotly)
 library(bslib)
 library(sass)
+library(UnilSports)
 
 
 
@@ -23,7 +24,7 @@ library(sass)
 
 # source(here::here("R/functions.R"))
 
-pkgload::load_all("./")
+#pkgload::load_all("./")
 
 # source(here::here(
 #   whereami::thisfile(),
