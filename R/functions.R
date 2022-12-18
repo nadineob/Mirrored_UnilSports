@@ -122,16 +122,20 @@ webscrape_MET <- function() {
 #' get_cleanschedule_met()
 get_cleanschedule_met <- function(sport_schedule,met_values) {
   library(dplyr)
-  library(here)
+  #library(here)
+  library(UnilSports) #Mandy add
+  if(missing(sport_schedule)) {
+    sport_schedule <- UnilSports::sport_schedule
+  }
+  if(missing(met_values)) {
+    met_values <- UnilSports::met_values
+  }
   
-  mapping
-  
-  
-  unique(sport_schedule$Timetable)
-  sport_schedule <- sport_schedule %>% filter(!Timetable == "tout le jour")
+  mapping 
+  #unique(sport_schedule$Timetable) 
+  sport_schedule <- sport_schedule %>% dplyr::filter(!Timetable == "tout le jour") 
 
-  sport_schedule <- sport_schedule %>% filter(!Activity == "Sport libre")
-  
+  sport_schedule <- sport_schedule %>% dplyr::filter(!Activity == "Sport libre")
 
   sport_schedule <- sport_schedule %>% 
     left_join(mapping, by = "Activity") %>%
@@ -176,6 +180,7 @@ get_cleanschedule_met <- function(sport_schedule,met_values) {
 #' @return returns a list of 5 items, the optim_result, table_result (which has all the details of the best activity/ies, activity_selected, totalcal, totalduration)   
 #' @export
 #' @examples
+#' library(UnilSports)
 #' calburn <- 500
 #' date <- c('2022-12-14')
 #' activity <- c('Aquagym', 'Zumba', 'Pilates', 
@@ -185,7 +190,7 @@ get_cleanschedule_met <- function(sport_schedule,met_values) {
 #' time <- c('07:00 \u2013 08:00', '08:00 \u2013 09:00', '12:00 \u2013 13:00', '13:00 \u2013 14:00',
 #'          '17:00 \u2013 18:00', '18:00 \u2013 19:00', '19:00 \u2013 20:00')
 #' flag_no_duplicate_activities <- 1
-#' load(here::here("data/clean_sport_schedule.rda"))
+#' clean_sport_schedule <- UnilSports::clean_sport_schedule
 #' optimize_output <- optimize_schedule(clean_sport_schedule, date, activity, time, calburn, weight,flag_no_duplicate_activities)
 optimize_schedule <- function(clean_sport_schedule, date, activity, time, calburn, weight, flag_no_duplicate_activities = 0) {
   library(lpSolve)
@@ -342,6 +347,7 @@ optimize_schedule <- function(clean_sport_schedule, date, activity, time, calbur
 #' @return  a pie chart of the table_result
 #' @export
 #' @examples
+#' library(UnilSports)
 #' calburn <- 500
 #' date <- c('2022-12-14')
 #' activity <- c('Aquagym', 'Zumba', 'Pilates',
@@ -351,7 +357,7 @@ optimize_schedule <- function(clean_sport_schedule, date, activity, time, calbur
 #' time <- c('07:00 \u2013 08:00', '08:00 \u2013 09:00', '12:00 \u2013 13:00', '13:00 \u2013 14:00',
 #'          '17:00 \u2013 18:00', '18:00 \u2013 19:00', '19:00 \u2013 20:00')
 #' flag_no_duplicate_activities <- 1
-#' load(here::here("data/clean_sport_schedule.rda"))
+#' clean_sport_schedule <- UnilSports::clean_sport_schedule
 #' optimize_output <- optimize_schedule(clean_sport_schedule, date, activity, time, calburn, weight,flag_no_duplicate_activities)
 #' optim_plot <- optimize_output$table_result
 #' pie_optim(optim_plot) #call function
@@ -411,6 +417,8 @@ pie_optim <- function(optim_plot){
 #' build_ui(clean_sport_schedule)
 build_ui <- function(clean_sport_schedule) {
   library(shiny)
+  library(dplyr) # Mandy add
+  library(plotly) # Mandy add
   return(shiny::navbarPage(shiny::strong("Sports Unil Plan"), 
              theme = bslib::bs_theme(bootswatch = "united", 
                                      base_font = sass::font_google("Montserrat")),
@@ -446,7 +454,7 @@ build_ui <- function(clean_sport_schedule) {
                  
                  selectInput("activity", 
                              label = strong("Choose activity"),
-                             choices = unique(filter(clean_sport_schedule, Date == unique(clean_sport_schedule$Date)[1])$Activity),
+                             choices = unique(dplyr::filter(clean_sport_schedule, Date == unique(clean_sport_schedule$Date)[1])$Activity),
                              multiple = TRUE),
                  
                  numericInput("calburn",
@@ -647,8 +655,6 @@ UnilSports_gui <- function(clean_sport_schedule) {
 #' @description This is a function that automatically runs the shiny function created and opens the dashboard for the user
 #' @return  A dashboard for the user to interact with
 #' @export
-#' @examples
-#' startApp()
 startApp <- function() {
 
   sport_schedule <- webscrape_sports()
