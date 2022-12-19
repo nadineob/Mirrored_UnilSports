@@ -201,7 +201,9 @@ get_cleanschedule_met <- function(sport_schedule,met_values) {
 #'      It has all the details of the best activity/ies, activity_selected, 
 #'      totalcal, and totalduration.  
 #' @import "lpSolve"
-#' @import "data.table"
+#' @importFrom data.table as.data.table
+#' @importFrom data.table foverlaps
+#' @importFrom data.table setkey
 #' @import "dplyr"
 #' @import "rlang"
 #' @export
@@ -372,7 +374,6 @@ optimize_schedule <- function(clean_sport_schedule, date, activity, time, calbur
 #'     the optimize_schedule function output. 
 #' @return  a pie chart of the table_result
 #' @import "plotly"
-#' @import "ggplot2"
 #' @import "dplyr"
 #' @export
 #' @examples
