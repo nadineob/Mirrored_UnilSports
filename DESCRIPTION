@@ -1,5 +1,4 @@
 Package: UnilSports
-Depends: R (>= 4.2.0)
 Type: Package
 Title: Create a Dashboard with Shiny Apps for sports schedules and calorie burn
 Version: 0.1.0
@@ -12,8 +11,7 @@ Author: c(
 Maintainer: Nadine Obeid <nadine.obeid@unil.ch>, 
             Manunpat Sirijaturaporn <manunpat.sirijaturaporn@unil.ch>,
             Arturo Garcia Luna Beltran <arturo.garcialunabeltran@unil.ch>,
-            Katti Irastorza <katti.irastorza@unil.ch>,
-URL: file:///Users/nadine/UNIL/Semester%203/Programming%20tools%20in%20DS/final-project-group_b/docs/index.html
+            Katti Irastorza <katti.irastorza@unil.ch>
 Description: 
     This package contails functions that web-scrape unil sports website, cleans the data scraped and then provides an optimization function to calculate the calories.
 License: GPL (>= 2)
