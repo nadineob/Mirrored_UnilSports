@@ -112,7 +112,7 @@ This function evaluates the calorie burn per activity and time according to the 
   If the flag is set to 1 that prohibit the selection of duplicate activities
    
 ### Example
-```{r,echo=TRUE}
+```{r, warning=FALSE, echo=TRUE}
 activity <- c('Football / Pratique libre','Badminton / Tous niveaux
 ' , 'Aquagym', 'Zumba', 'Pilates', 'Agrès', 'Salsa cubaine / Débutants')
 time <- c('07:00 \u2013 19:00')
@@ -130,17 +130,10 @@ head(optim_result$table_result,10)
 ```
 
 
-## Piechart function `pie_optim()`
-  This function plots the optimization function results.
-
-### Arguments.
-   
-#### optimize_schedule
-   it refers to the results of the optimized schedule table
-   
-   (optimize_output$table_result)
+## Optimization App `startApp()`
+  This function show the graphical user interface of the optimization tool
   
 ### Example.
-```{r,echo=TRUE}
-pie_optim(optim_result$table_result)
+```{r,echo=TRUE, eval = F}
+startApp()
 ```
