@@ -248,7 +248,7 @@ pie_optim(optim_plot)
 
 The return output should be the shiny application of the Sports Unil Plan 
 
-### Example.
+#### Example
 ```{r,echo=TRUE, eval = F}
 # Call the function
 startApp()
