@@ -69,14 +69,14 @@ where $cal_i$ is the calorie burn of activity $i$ and $calburn$ is the target ca
 We set constraints to ensure that no more than one activity can be selected for any overlapping time interval.
 For example, if activity A starts at 8.00 and ends at 9.00 and activity B starts at 8.45 and ends at 9.15,
 they cannot be selected together (i.e. only one of them can be selected).
-$$\sum_{i \in A} x_i + \sum_{i \in B} x_i + \sum_{i \in C} x_i \leq 1$$
-for all overlapping time intervals where activity $A$, $B$, $C$, ... have overlapping time slots.
+$$\sum_{i \in A} x_i, \sum_{i \in B} x_i, \sum_{i \in C} x_i,... \leq 1$$
+for all overlapping time intervals $A$, $B$, $C$, ... 
 
 3) [Optional] Prohibiting the selection of duplicate activities:
 We set constraints such that the same activity cannot be selected.
 For example, if there are several Football sessions, only 1 Football session can be selected.
-$$\sum_{i \in I} x_i + \sum_{i \in J} x_i + \sum_{i \in K} x_i + ... \leq 1$$
-for all duplicate activities where activity $I$, $J$, $K$, ... are the same activity.
+$$\sum_{i \in I} x_i, \sum_{i \in J} x_i, \sum_{i \in K} x_i, ... \leq 1$$
+for all duplicate activities $I$, $J$, $K$, ...
 
 If the optimization algorithm is unable to find a solution, it indicates that there is no combination of activities whose total calorie expenditure exceeds the target calorie burn rate. In such case, the optimizer returns a combination of activities that results in the highest total calorie expenditure, rather than the minimum number of activities. This can be achieved by modifying the objective function and the first constraint as follows:
 
@@ -87,3 +87,7 @@ where $x_i$ is a binary variable that is 1 if activity $i$ is chosen and 0 if it
 
 Modified first constraint:
 $$\sum_{i=1}^N (x_i \cdot cal_i) \leq calburn$$
+
+## Vignette
+
+**Note:** For reference, you can find examples on how to use the functions of this package by using `browseVignettes()` after installing the package and search for UnilSports to get the details. 
