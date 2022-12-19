@@ -22,6 +22,8 @@ Imports:
     data.table, lpSolve, rlang
 Suggests: 
     shinytest2,
+    flextable,
+    here,
     markdown,
     knitr,
     testthat (>= 3.0.0)
