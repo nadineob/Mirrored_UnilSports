@@ -17,123 +17,243 @@ knitr::opts_chunk$set(
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(rvest)
 library(tidyverse)
-library(flextable)
 library(lubridate)
 library(dplyr)
+library(lpSolve)
+library(data.table)
+library(rlang)
+library(plotly)
+library(ggplot2)
+library(shiny)
+library(shinythemes)
+library(bslib)
 library(here)
 library(UnilSports)
 ```
 
 
+The UnilSports makes it easier for UNIL/EPFL users or people interested in the activities of the University of Lausanne Sports Center to find their preferred sport by optimizing the time schedules(*if some of the sports selected overlap, this package will handle it*). In addition, from the selected sports and time schedules the optimum value of calorie burn will be selected, so the user can get as an output the most efficient sport schedule, calorie burn and time duration.
 
-## Introduction
-   Choosing for the ideal activity at UNIL sports webpage may take some time given that it is structured in such a way that students see all the activities that are offered at each day. So if we want to build a weekly schedule, we should go day by day looking for the type of activity we are interested in.
-   
-   The UnilSports package optimizes this selection and provides more information related to each activity. By using the functions that are included and introducing your own preferences as constraints, you can create a timetable that returns:
-   
-* The time and place at which each activity is offered.
+This document introduces you to UnilSports' basic set of tools and show how to apply them in the datasets provided. Furthermore, I will guide you across the several functions, so that you are able to run the shiny application for the interactive visualizations. 
 
-* The total amount of calories that are burnt during each activity.
+```{r}
+library(UnilSports)
+```
 
-* A plot with the optimization results.
-     
-This document introduces you to UnilSports basic set of tools, and shows you how to apply them.
-  
+## Data preparation
 
-## Transform daily data into weekly data `webscrape_sports()`
-  This function returns a weekly sports table schedule.
-  
-  
-  
-### Example
-```{r,echo=TRUE}
-sport_schedule<- webscrape_sports()
-head(sport_schedule,5)
+This is one of the main points to understand, in order to use this package. Due to the dependency of the information from the Unil Sports center website, we had to consider and automatic way for the retrieval of this information. Therefore, we have added these functions `webscrape_sports` and `webscrape_MET` for this automatic task that will be later explained. 
+
+The data sets available in this package are related to some of the functions as we have explained. Let's go through each of them so it is more clear.
+
+### Sport Schedule
+
+This dataset contains the sports activities from the Unil Sports center for a week. It will depend on the day that was computed, so it may be a different date that appears for you but the structure remains the same.
+
+To know about what represent each columns please use this command in the console. `?sport_schedule`
+
+#### Example
+```{r}
+# To load the data
+UnilSports::sport_schedule
 
 ```
-  
-## Webscrape met data `webscrape_MET()`
- This function returns the MET values table of more than 800 activities.
-   
+
+### MET Values
+
+This dataset contains the metabolic equivalent of task (MET) of each exercise activity (821 sub-activities in total). These values will be use on the `optimize_schedule` function, so it can compute the calorie burn per activity.
+
+To find out what each column represents, use the `?met_values` command in the console.
+
+#### Example
+```{r}
+# To load the data
+UnilSports::met_values
+
+```
+
+### Mapping
+
+This dataset contains a table with all the activity names on the UNIL Sport center and the sub-activity/specific motion names in the MET values table. From the name we can have an idea of the purpose of the dataset. This table will mapped the sport activities with the MET valus when using the `get_cleanschedule_met` function.
+
+To learn the meaning of each column, enter the `?mapping` command in the console.
+
+#### Example
+```{r}
+# To load the data
+UnilSports::mapping
+```
+
+### Clean Sport Schedule
+
+This dataset is linked to the previous datasets, as it contain the information from the three of them. From this dataset we will be able to use the functions related to the shiny application, as it is the one containing all the information needed. 
+
+To understand the significance of each column, use the `?clean_sport_schedule` command in the console.
+
+#### Example
+```{r}
+# To load the data
+UnilSports::clean_sport_schedule %>% head(5)
+```
+
+## UnilSport Functions
+
+Now, that we know a bit more about the datasets, we will be able to use the functions. We have 7 functions within this package that we will be describe on this section. Let's have some fun!
+
+### Web Scrape UNIL's Sport Center `webscrape_sports()`
+
+`webscrape_sports()` allows you to web scrap the [UNIL's Sport Center](https://sport.unil.ch/) website for the amount of days you want to know the sports schedules. The return output is a data frame containing the weekly itinerary for the activity sports.
+
+**Note:** *The UNIL's Sport website do not have all the activities if we try to get a date period above a week, for that reason we have consider 7 days. But it is feasible to retrieve more than on week a head.*
+
+#### Example
 ```{r,echo=TRUE}
+# Create Sport Schedule dataset
+sport_schedule <- webscrape_sports(days = 7)
+head(sport_schedule,5) # Visualize the first 5 rows of the data frame
+
+# or without the parameter
+sport_schedule <- webscrape_sports()
+head(sport_schedule,5) # Visualize the first 5 rows of the data frame
+```
+
+### Web Scrape MET Values `webscrape_MET()`
+
+`webscrape_MET()` support the user to web scrap the MET values from the [Procon.org](https://golf.procon.org/met-values-for-800-activities/) website. As we have mentioned before this will allow the `get_cleanschedule_met()` function for the mapping of sports activities and MET values. The return output is a data frame containing the MET values of more than 800 activities.
+
+#### Example
+```{r,echo=TRUE}
+# Create MET values dataset
 met_values <- webscrape_MET()
-head(met_values,5)
- 
+head(met_values,10) # Visualize the first 10 rows of the data frame
 ```
 
-## Mapping the data `get_cleanschedule_met()`
-  This function cleans the data scraped from the webpage of Unil sports and produces a proper dataset mapped to another dataset web-scraped for met values. 
-  
-  
-  
-### Example
-  
+### Wrangling and Cleaning `get_cleanschedule_met()`
+
+`get_cleanschedule_met()` let you to link the previous data frames (`met_values`,  `sport_schedule`) created to prepare the mapping of sports activities and MET values for the optimization function `optimize_schedule()`. The return output contains a mapped dataframe containing sports activities, MET values and the number of calories burned per weight (kg).
+
+#### Example
 ```{r,echo=TRUE}
+# Clean and Link the datasets
 clean_sport_schedule <- get_cleanschedule_met(sport_schedule,met_values)
-head(clean_sport_schedule,5)
+head(clean_sport_schedule,5) # Visualize the first 5 rows of the data frame
 ```
 
-## Evaluating the calories burnt at each activity `optimize_schedule()`
+### Optimization `optimize_schedule()`
 
-This function evaluates the calorie burn per activity and time according to the parameters entered.  
+`optimize_schedule()` allows you to evaluate the calorie burn per activity and time according to the parameters entered. The main objective is to minimize the number of chosen activities.
+$$min\sum_{i=1}^N x_i$$
+where $x_i$ is a binary variable that is 1 if activity $i$ is chosen and 0 if it is not chosen.
 
-### Arguments
+This optimization function calculates the calorie burn subject to 3 constraints:
 
-#### cleanschedule
+1. The total calorie burn must exceed the target calorie:
+$$\sum_{i=1}^N (x_i \cdot cal_i) \geq calburn$$
+where $cal_i$ is the calorie burn of activity $i$ and $calburn$ is the target calorie.
 
-   The data frame output from the get_cleanschedule_met
-   
-   
-#### date
+2. No overlapping time slots:
+We set constraints to ensure that no more than one activity can be selected for any overlapping time interval.
+For example, if activity A starts at 8.00 and ends at 9.00 and activity B starts at 8.45 and ends at 9.15,
+they cannot be selected together (i.e. only one of them can be selected).
+$$\sum_{i \in A} x_i + \sum_{i \in B} x_i + \sum_{i \in C} x_i \leq 1$$
+for all overlapping time intervals where activity $A$, $B$, $C$, ... have overlapping time slots.
 
-   Days of the week in which you want to practice sports
-   
-   
-#### activity
+3) [Optional] Prohibiting the selection of duplicate activities:
+We set constraints such that the same activity cannot be selected.
+For example, if there are several Football sessions, only 1 Football session can be selected.
+$$\sum_{i \in I} x_i + \sum_{i \in J} x_i + \sum_{i \in K} x_i + ... \leq 1$$
 
-   Preferred type of activity
-   
-   
-#### time
+for all duplicate activities where activity $I$, $J$, $K$, ... are the same activity.
 
-   Time disponibility
-   
-   
-#### calburn
+To understand the significance of each parameter, use the `?optimize_schedule()` command in the console.
 
-   Amount of calories that are wanted to be burnt
-   
-   
-#### weight
-
-   Weight of the user
-   
-#### flag_no_duplicate_activities
-  If the flag is set to 1 that prohibit the selection of duplicate activities
-   
-### Example
-```{r, warning=FALSE, echo=TRUE}
-activity <- c('Football / Pratique libre','Badminton / Tous niveaux
-' , 'Aquagym', 'Zumba', 'Pilates', 'Agrès', 'Salsa cubaine / Débutants')
-time <- c('07:00 \u2013 19:00')
+#### Example
+```{r,echo=TRUE}
+# Amount of calories you want to burn
 calburn <- 500
+
+# Date preference - keep the same format*
+date <- c('2022-12-14')
+
+# Sport activity of interest
+# The activity has to appear on the date selected
+activity <- c('Football / Pratique libre','Badminton / Tous niveaux',
+              'Aquagym', 'Zumba', 'Pilates', 'Agrès', 
+              'Salsa cubaine / Débutants')
+
+# Your current weight(kg)
 weight <- 50
+
+# Time availability
+time <- c('07:00 \u2013 19:00')
+
+# 1 if you want different activities, 0 otherwise
 flag_no_duplicate_activities <- 1
-optim_result <- optimize_schedule(clean_sport_schedule,
-                                  clean_sport_schedule$Date[1], 
-                                  activity,
-                                  time, 
-                                  calburn,
-                                  weight,
-                                  flag_no_duplicate_activities)
-head(optim_result$table_result,10)
+
+# Load the clean_sport_schedule from the package
+clean_sport_schedule <- UnilSports::clean_sport_schedule
+
+# Apply optimize_schedule() function
+optimize_output <- optimize_schedule(clean_sport_schedule, date, activity, 
+                                    time, calburn, weight,
+                                    flag_no_duplicate_activities)
+# Call function and see the results
+head(optimize_output$table_result,10)
+```
+
+### Pie Chart `pie_optim()`
+
+`pie_optim()` let the user print a pie chart reflecting the output of the optimization function. This function will be use inside the Shiny app function logic. 
+
+#### Example
+```{r,echo=TRUE}
+# Amount of calories you want to burn
+calburn <- 500
+
+# Date preference - keep the same format*
+date <- c('2022-12-14')
+
+# Sport activity of interest
+# The activity has to appear on the date selected
+activity <- c('Football / Pratique libre','Badminton / Tous niveaux',
+              'Aquagym', 'Zumba', 'Pilates', 'Agrès', 
+              'Salsa cubaine / Débutants')
+
+# Your current weight(kg)
+weight <- 50
+
+# Time availability
+time <- c('07:00 \u2013 19:00')
+
+# 1 if you want different activities, 0 otherwise
+flag_no_duplicate_activities <- 1
+
+# Load the clean_sport_schedule from the package
+clean_sport_schedule <- UnilSports::clean_sport_schedule
+
+# Run the function
+optimize_output <- optimize_schedule(clean_sport_schedule, date, activity, 
+                                    time, calburn, weight,
+                                    flag_no_duplicate_activities)
+optim_plot <- optimize_output$table_result
+
+# Call function
+pie_optim(optim_plot) 
 ```
 
 
-## Optimization App `startApp()`
-  This function show the graphical user interface of the optimization tool
-  
+### Optimization App `startApp()`
+
+`startApp()` allows the users to run automatically a graphical user interface of the optimization tool. Here users are going to be able to interact and get the time schedules of the preferred sports activities with the optimal calorie burn.
+
+The return output should be the shiny application of the Sports Unil Plan 
+
 ### Example.
 ```{r,echo=TRUE, eval = F}
+# Call the function
 startApp()
 ```
+
+![](https://thumbs.gfycat.com/AcademicAssuredAvocet-size_restricted.gif)
+
+
