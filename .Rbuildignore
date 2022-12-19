@@ -2,3 +2,6 @@
 ^\.Rproj\.user$
 ^data-raw
 ^image.png
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

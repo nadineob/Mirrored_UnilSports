@@ -12,3 +12,6 @@ A dashboard for the user to interact with
 \description{
 This is a function that automatically runs the shiny function created and opens the dashboard for the user
 }
+\author{
+Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
+}

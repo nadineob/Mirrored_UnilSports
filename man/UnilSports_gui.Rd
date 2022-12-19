@@ -18,3 +18,6 @@ This is a function that provides a dashboard for users to input their desired ti
 \examples{
 clean_sport_schedule <- get_cleanschedule_met(sport_schedule,met_values)
 }
+\author{
+Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
+}
