@@ -1,3 +1,7 @@
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/ptds2022/final-project-group_b/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ptds2022/final-project-group_b/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+  
 # UnilSports
 final-project-group_b created by GitHub Classroom
 
