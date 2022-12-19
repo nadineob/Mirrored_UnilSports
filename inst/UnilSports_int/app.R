@@ -32,9 +32,9 @@ library(UnilSports)
 # ))
 
 
-sport_schedule <- webscrape_sports()
-met_values     <- webscrape_MET()
-clean_sport_schedule <- get_cleanschedule_met(sport_schedule,met_values)
+# sport_schedule <- webscrape_sports()
+# met_values     <- webscrape_MET()
+# clean_sport_schedule <- get_cleanschedule_met(sport_schedule,met_values)
 
 # load(here::here(
 #   rprojroot::find_root(rprojroot::is_testthat),

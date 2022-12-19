@@ -15,11 +15,14 @@
       ]
     },
     "activity": [
+      "Football / Pratique libre",
+      "Pole Sportive / Débutants (Cours 1)",
+      "Yoga / Avancés (Postures classiques)",
       "Basketball / Pratique libre à l'extérieur",
-      "Football / Pratique libre"
+      "Pole Sportive / Débutants (Cours 11 (supplémentaire))"
     ],
     "calburn": 1500,
-    "date": "2022-12-20",
+    "date": "2022-12-14",
     "no_dup": true,
     "opt": 1,
     "plotly_afterplot-A": "\"calburnplot\"",
@@ -69,10 +72,14 @@
         "data": [
           {
             "labels": [
+              "Pole Sportive / Débutants (Cours 11 (supplémentaire))",
+              "Pole Sportive / Débutants (Cours 1)",
               "Football / Pratique libre",
               "Basketball / Pratique libre à l'extérieur"
             ],
             "values": [
+              383.25,
+              383.25,
               420,
               341.25
             ],
@@ -236,10 +243,14 @@
         "data": [
           {
             "labels": [
+              "Pole Sportive / Débutants (Cours 11 (supplémentaire))",
+              "Pole Sportive / Débutants (Cours 1)",
               "Football / Pratique libre",
               "Basketball / Pratique libre à l'extérieur"
             ],
             "values": [
+              60,
+              60,
               60,
               60
             ],
@@ -372,8 +383,8 @@
       "width": "auto",
       "deleteFile": false
     },
-    "optim_result": "Cannot reach the calorie burn target. The optimizer returns the solution with the highest possible calorie burn. Total Exercise Duration: 120 min, Total Calorie Burn: 761",
-    "optim_table": "<table  class = 'table shiny-table table-hover spacing-s' style = 'width:auto;'>\n<thead> <tr> <th style='text-align: right;'> Start Time <\/th> <th style='text-align: right;'> End Time <\/th> <th style='text-align: right;'> Duration (min) <\/th> <th style='text-align: left;'> Activity <\/th> <th style='text-align: left;'> Location <\/th> <th style='text-align: right;'> Calburn <\/th>  <\/tr> <\/thead> <tbody>\n  <tr> <td align=\"right\"> 8.00 <\/td> <td align=\"right\"> 9.00 <\/td> <td align=\"right\"> 60.00 <\/td> <td> Football / Pratique libre <\/td> <td> Rugby-Foot Chamberonne 1/2 terrain sud <\/td> <td align=\"right\"> 420.00 <\/td> <\/tr>\n  <tr> <td align=\"right\"> 12.00 <\/td> <td align=\"right\"> 13.00 <\/td> <td align=\"right\"> 60.00 <\/td> <td> Basketball / Pratique libre à l'extérieur <\/td> <td> Basket Entier <\/td> <td align=\"right\"> 341.25 <\/td> <\/tr>\n   <\/tbody> <\/table>"
+    "optim_result": "The optimization is successful! Total Exercise Duration: 240 min, Total Calorie Burn: 1528",
+    "optim_table": "<table  class = 'table shiny-table table-hover spacing-s' style = 'width:auto;'>\n<thead> <tr> <th style='text-align: right;'> Start Time <\/th> <th style='text-align: right;'> End Time <\/th> <th style='text-align: right;'> Duration (min) <\/th> <th style='text-align: left;'> Activity <\/th> <th style='text-align: left;'> Location <\/th> <th style='text-align: right;'> Calburn <\/th>  <\/tr> <\/thead> <tbody>\n  <tr> <td align=\"right\"> 8.00 <\/td> <td align=\"right\"> 9.00 <\/td> <td align=\"right\"> 60.00 <\/td> <td> Football / Pratique libre <\/td> <td> Terrain Central Est <\/td> <td align=\"right\"> 420.00 <\/td> <\/tr>\n  <tr> <td align=\"right\"> 10.00 <\/td> <td align=\"right\"> 11.00 <\/td> <td align=\"right\"> 60.00 <\/td> <td> Basketball / Pratique libre à l'extérieur <\/td> <td> Basket Entier <\/td> <td align=\"right\"> 341.25 <\/td> <\/tr>\n  <tr> <td align=\"right\"> 12.00 <\/td> <td align=\"right\"> 13.00 <\/td> <td align=\"right\"> 60.00 <\/td> <td> Pole Sportive / Débutants (Cours 1) <\/td> <td> SOS1-Dojo <\/td> <td align=\"right\"> 383.25 <\/td> <\/tr>\n  <tr> <td align=\"right\"> 14.00 <\/td> <td align=\"right\"> 15.00 <\/td> <td align=\"right\"> 60.00 <\/td> <td> Pole Sportive / Débutants (Cours 11 (supplémentaire)) <\/td> <td> SOS1-Dojo <\/td> <td align=\"right\"> 383.25 <\/td> <\/tr>\n   <\/tbody> <\/table>"
   },
   "export": {
 
