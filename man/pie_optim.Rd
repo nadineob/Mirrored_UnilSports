@@ -34,3 +34,6 @@ optimize_output <- optimize_schedule(clean_sport_schedule, date, activity,
 optim_plot <- optimize_output$table_result
 pie_optim(optim_plot) #call function
 }
+\author{
+Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
+}

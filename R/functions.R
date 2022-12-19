@@ -14,6 +14,7 @@ utils::globalVariables(c(
 
 #' @title Webscraping function for Sports Schedule
 #' @description A function that returns the sports table schedule from the Unil Sports Center.
+#' @author Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
 #' @param days The number of days that you want to retrieve from the Unil Sports Center website. The defaut number of days is 7. 
 #' @return  A data frame containing the sports schedule of the number of days selected
 #' @import "rvest"
@@ -98,6 +99,7 @@ webscrape_sports <- function(days = 7) {
 
 #' @title Webscraping function for MET Values
 #' @description A function that returns the MET values table of more than 800 activities webscrapped from the golf.procon.org website.
+#' @author Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
 #' @return  A data frame containing the MET values per sport activity.
 #' @import "rvest"
 #' @import "tidyverse"
@@ -128,6 +130,7 @@ webscrape_MET <- function() {
 #' @description 
 #'     A function that cleans the output (data rame) extracted from the webscrape_sports function. 
 #'     This function maps the MET values into the data in order to calculate the calorie burn amount per activity.  
+#' @author Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
 #' @param sport_schedule Data frame containing the sports schedule of the number of days selected obtained when running webscrape_sports function
 #' @param met_values Data frame containing the MET values per sport activity obtained when running webscrape_MET function.
 #' @return  A data frame containing the activities per day with their correspondingly Met values.
@@ -185,6 +188,7 @@ get_cleanschedule_met <- function(sport_schedule,met_values) {
 #'     1. The total calorie burn must exceed the target calorie Equation: sum(x_i*cal_i) >= calburn where cal_i is the calorie burn of activity i and calburn is the target calorie.
 #'     2. No overlapping time slots. The optimizer won't select 2 or more activities that occur at the same time. For example, if activity A starts at 8.00 and ends at 9.00 and activity B starts at 8.45 and ends at 9.15, they cannot be selected together (i.e. only one of them can be selected) Equation: x_a + x_b + x_c +... <= 1 for all overlapping time intervals if activity a, b, c,... have overlapping time slots. 
 #'     3. Do not select the same activity.The same activity cannot be selected. For example, if there are several Football sessions, only 1 Football session can be selected. Equation: x_i + x_j + x_k + ... <= 1 for all duplicate activities if activity i, j, k,... are the same activity
+#' @author Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
 #' @param clean_sport_schedule The data frame output from the 
 #'      get_cleanschedule_met. The output of this function should not be 
 #'      modified, so this function can apply the integer optimization technique 
@@ -368,6 +372,7 @@ optimize_schedule <- function(clean_sport_schedule, date, activity, time, calbur
 #' @title piechart Function
 #' @description a function that prints a pie chart reflecting the output of the 
 #'     optimization function
+#' @author Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
 #' @param optim_plot the output that is obtained in the table_result section of
 #'     the optimize_schedule function output. 
 #' @return  a pie chart of the table_result
@@ -435,6 +440,7 @@ pie_optim <- function(optim_plot){
 
 #' @title User Interface function for UnilSports Shiny Application
 #' @description This is a function that builds a user interface for the UnilSports shiny application. This function is then used as the first parameter of the UnilSports_gui function. 
+#' @author Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
 #' @param clean_sport_schedule The data frame output from the get_cleanschedule_met. The output of this function should not be modified, so this function can apply the integer optimization technique properly.
 #' @return  a shiny web application dashboard that builds a user interface for the UnilSports shiny application. This function is then used as one of  the parameters of the  UnilSports_gui function. 
 #' @import "shiny"
@@ -532,6 +538,7 @@ build_ui <- function(clean_sport_schedule) {
 
 #' @title Server function for UnilSports Shiny Application
 #' @description This is a function that builds a server for the UnilSports shiny application. This function is then used as the secoond parameter in the  UnilSports_gui function. 
+#' @author Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
 #' @param clean_sport_schedule The data frame output from the get_cleanschedule_met. The output of this function should not be modified, so this function can apply the integer optimization technique properly.
 #' @return  a shiny server output 
 #' @import "shiny"
@@ -659,6 +666,7 @@ build_server <- function(clean_sport_schedule) {
 
 #' @title Shiny Application function for UnilSports package
 #' @description This is a function that provides a dashboard for users to input their desired time tables, classes, calories burned to get a set of classes that adhere to the respective requirements
+#' @author Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
 #' @param clean_sport_schedule The data frame output from the get_cleanschedule_met. The output of this function should not be modified, so this function can apply the integer optimization technique properly.
 #' @return  a shiny web application dashboard that provides the user with the available sports classes based on certain parameters entered by the user.
 #' @import "shiny"
@@ -684,6 +692,7 @@ UnilSports_gui <- function(clean_sport_schedule) {
 
 
 #' @title Start Function for Shiny Application 
+#' @author Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
 #' @description This is a function that automatically runs the shiny function created and opens the dashboard for the user
 #' @return  A dashboard for the user to interact with
 #' @export

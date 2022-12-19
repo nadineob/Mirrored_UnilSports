@@ -64,3 +64,6 @@ optimize_output <- optimize_schedule(clean_sport_schedule, date, activity,
                                      time, calburn, weight,
                                      flag_no_duplicate_activities)
 }
+\author{
+Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
+}

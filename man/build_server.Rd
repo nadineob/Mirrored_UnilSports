@@ -18,3 +18,6 @@ This is a function that builds a server for the UnilSports shiny application. Th
 \examples{
 build_server(clean_sport_schedule)
 }
+\author{
+Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
+}
