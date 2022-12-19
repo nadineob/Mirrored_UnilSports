@@ -23,10 +23,6 @@ utils::globalVariables(c(
 #' @examples
 #' webscrape_sports()
 webscrape_sports <- function(days = 7) {
-  library(rvest)
-  library(tidyverse)
-  library(lubridate)
-
   
   if (is.numeric(days) == F) { 
     stop("'days' must be numeric")
@@ -110,9 +106,6 @@ webscrape_sports <- function(days = 7) {
 #' webscrape_MET()
 webscrape_MET <- function() {
 
-  library(rvest)
-  library(tidyverse)
-
   
   met_values.html <- read_html("https://golf.procon.org/met-values-for-800-activities/") 
   
@@ -143,8 +136,7 @@ webscrape_MET <- function() {
 #' @examples
 #' get_cleanschedule_met()
 get_cleanschedule_met <- function(sport_schedule,met_values) {
-  library(dplyr)
-  library(UnilSports)
+
   if(missing(sport_schedule)) {
     sport_schedule <- UnilSports::sport_schedule
   }
@@ -229,10 +221,6 @@ get_cleanschedule_met <- function(sport_schedule,met_values) {
 #'                                      time, calburn, weight,
 #'                                      flag_no_duplicate_activities)
 optimize_schedule <- function(clean_sport_schedule, date, activity, time, calburn, weight, flag_no_duplicate_activities = 0) {
-  library(lpSolve)
-  library(data.table)
-  library(dplyr)
-  library(rlang)
 
   
   cleanscheduletemp <- clean_sport_schedule %>% 
@@ -404,12 +392,7 @@ optimize_schedule <- function(clean_sport_schedule, date, activity, time, calbur
 #' optim_plot <- optimize_output$table_result
 #' pie_optim(optim_plot) #call function
 pie_optim <- function(optim_plot){
-  library(plotly)
-  library(ggplot2)
-  library(dplyr)
 
-  
-  
   data <- data.frame(
     group=optim_plot$Activity,
     value_burn=optim_plot$calburn,
@@ -463,13 +446,6 @@ pie_optim <- function(optim_plot){
 #' @examples
 #' build_ui(clean_sport_schedule)
 build_ui <- function(clean_sport_schedule) {
-  
-  library(shiny)
-  library(shinythemes)
-  library(dplyr)
-  library(plotly)
-  library(bslib)
-  library(UnilSports)
   
   return(shiny::navbarPage(shiny::strong("Sports Unil Plan"), 
              theme = bslib::bs_theme(bootswatch = "united", 
@@ -567,12 +543,6 @@ build_ui <- function(clean_sport_schedule) {
 #' @examples
 #' build_server(clean_sport_schedule)
 build_server <- function(clean_sport_schedule) {
-  library(shiny)
-  library(shinythemes)
-  library(dplyr)
-  library(plotly)
-  library(bslib)
-  library(UnilSports)
   
   return(function(input, output, session) {
     
@@ -700,13 +670,6 @@ build_server <- function(clean_sport_schedule) {
 #' @examples
 #' clean_sport_schedule <- get_cleanschedule_met(sport_schedule,met_values)
 UnilSports_gui <- function(clean_sport_schedule) {
-  
-  library(shiny)
-  library(shinythemes)
-  library(dplyr)
-  library(plotly)
-  library(bslib)
-  library(UnilSports)
   
   run_shiny <- shinyApp(build_ui(clean_sport_schedule), build_server(clean_sport_schedule))
   return(run_shiny)
