@@ -18,8 +18,9 @@ LazyData: true
 RoxygenNote: 7.2.2
 Imports: 
     rvest, tidyverse, lubridate, dplyr, ggplot2, bslib,  plotly,  sass, shiny, shinythemes,
-    data.table, lpSolve, rlang, shinytest2
+    data.table, lpSolve, rlang
 Suggests: 
+    shinytest2,
     markdown,
     knitr,
     testthat (>= 3.0.0)
