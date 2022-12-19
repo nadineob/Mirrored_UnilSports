@@ -19,11 +19,17 @@ With this package the user will be able to visualize in a dashboard the daily ex
 ## Import Packages
 In order to complete this project, we anticipate to use the following packages:
 
-* `rvest`: for webscraping one webpage
-* `rcrawler`: this package might also be used for webscraping across different webpages if needed
-* `devtools`: for facilitating the package development process by providing R functions that simplify and expedite common tasks
-* `lpSolve`: for the integer optimization to provide the daily exercise recommendation plan
-
+* `rvest` 
+* `tidyverse` 
+* `lubridate`
+* `lpSolve`
+* `dplyr`
+* `data.table`
+* `rlang`
+* `plotly`
+* `shiny`
+* `shinythemes`
+* `bslib`
 
 ## Data
 
