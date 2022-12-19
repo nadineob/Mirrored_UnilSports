@@ -18,3 +18,6 @@ A function that returns the sports table schedule from the Unil Sports Center.
 \examples{
 webscrape_sports()
 }
+\author{
+Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
+}

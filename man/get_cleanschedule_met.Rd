@@ -21,3 +21,6 @@ A function that cleans the output (data rame) extracted from the webscrape_sport
 \examples{
 get_cleanschedule_met()
 }
+\author{
+Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
+}

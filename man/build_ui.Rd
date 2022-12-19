@@ -18,3 +18,6 @@ This is a function that builds a user interface for the UnilSports shiny applica
 \examples{
 build_ui(clean_sport_schedule)
 }
+\author{
+Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
+}

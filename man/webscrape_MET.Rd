@@ -15,3 +15,6 @@ A function that returns the MET values table of more than 800 activities webscra
 \examples{
 webscrape_MET()
 }
+\author{
+Arturo Garcia Luna Beltran Manunpat Sirijaturaporn Nadine Obeid Katti Irastorza
+}
