@@ -1,5 +1,5 @@
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/ptds2022/final-project-group_b/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ptds2022/final-project-group_b/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/nadineob/Mirrored_UnilSports/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nadineob/Mirrored_UnilSports/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
   
 # UnilSports
