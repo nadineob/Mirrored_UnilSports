@@ -22,6 +22,7 @@ Imports:
     data.table, lpSolve, rlang
 Suggests: 
     shinytest2,
+    ggplot2,
     flextable,
     here,
     markdown,
