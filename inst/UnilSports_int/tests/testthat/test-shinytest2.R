@@ -15,5 +15,4 @@ test_that("{shinytest2} recording: testing_app", {
   app$set_inputs(no_dup = TRUE)
   app$click("opt")
   app$expect_values()
-  app$expect_screenshot()
 })
