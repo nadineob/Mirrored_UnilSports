@@ -227,7 +227,14 @@ get_cleanschedule_met <- function(sport_schedule,met_values) {
 #'                                      time, calburn, weight,
 #'                                      flag_no_duplicate_activities)
 optimize_schedule <- function(clean_sport_schedule, date, activity, time, calburn, weight, flag_no_duplicate_activities = 0) {
-
+  
+  if (length(activity) == 0) {
+    activity <- unique(clean_sport_schedule$Activity)
+  }
+  
+  if (length(time) == 0) {
+    time <- c('00:00 \u2013 24:00')
+  }
   
   cleanscheduletemp <- clean_sport_schedule %>% 
     dplyr::filter(Date == date) %>%
