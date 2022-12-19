@@ -4,7 +4,7 @@ author: "Nadine Obeid, Manunpat Sirijaturaporn, Katti Irastorza, Arturo Garcia L
 date: "December 2022"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{my-vignette}
+  %\VignetteIndexEntry{Introduction to UnilSports package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,12 +16,12 @@ knitr::opts_chunk$set(
 )
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(rvest)
-  library(tidyverse)
-  library(flextable)
-  library(lubridate)
- library(dplyr)
-  library(here)
- library(UnilSports)
+library(tidyverse)
+library(flextable)
+library(lubridate)
+library(dplyr)
+library(here)
+library(UnilSports)
 ```
 
 
@@ -47,14 +47,17 @@ This document introduces you to UnilSports basic set of tools, and shows you how
   
 ### Example
 ```{r,echo=TRUE}
- webscrape_sports()
+sport_schedule<- webscrape_sports()
+head(sport_schedule,5)
+
 ```
   
 ## Webscrape met data `webscrape_MET()`
  This function returns the MET values table of more than 800 activities.
    
 ```{r,echo=TRUE}
-webscrape_MET()
+met_values <- webscrape_MET()
+head(met_values,5)
  
 ```
 
@@ -66,8 +69,8 @@ webscrape_MET()
 ### Example
   
 ```{r,echo=TRUE}
-options(tibble.print_min = 4L, tibble.print_max = 4L)
-get_cleanschedule_met(sport_schedule,met_values)
+clean_sport_schedule <- get_cleanschedule_met(sport_schedule,met_values)
+head(clean_sport_schedule,5)
 ```
 
 ## Evaluating the calories burnt at each activity `optimize_schedule()`
@@ -105,23 +108,25 @@ This function evaluates the calorie burn per activity and time according to the 
 
    Weight of the user
    
-   
+#### flag_no_duplicate_activities
+  If the flag is set to 1 that prohibit the selection of duplicate activities
    
 ### Example
 ```{r,echo=TRUE}
-cleanschedule <- get_cleanschedule_met(sport_schedule,met_values)
- calburn <- 500
-date <- c('2022-12-14')
-activity <- c('Aquagym', 'Zumba', 'Pilates', 'Agrès',
-             'Tai ji quan / Tous niveaux',
-              'Musculation connectée / 1. Introduction',
-          'Cirque', 'Aviron / Débutants', 'Salsa cubaine / Débutants')
+activity <- c('Football / Pratique libre','Badminton / Tous niveaux
+' , 'Aquagym', 'Zumba', 'Pilates', 'Agrès', 'Salsa cubaine / Débutants')
+time <- c('07:00 \u2013 19:00')
+calburn <- 500
 weight <- 50
-time <- c('07:00 – 08:00', '08:00 – 09:00', '12:00 – 13:00', '13:00 – 14:00',
-     '17:00 – 18:00', '18:00 – 19:00', '19:00 – 20:00')
 flag_no_duplicate_activities <- 1
-load(here::here("data/clean_sport_schedule.rda"))
-
+optim_result <- optimize_schedule(clean_sport_schedule,
+                                  clean_sport_schedule$Date[1], 
+                                  activity,
+                                  time, 
+                                  calburn,
+                                  weight,
+                                  flag_no_duplicate_activities)
+head(optim_result$table_result,10)
 ```
 
 
@@ -137,7 +142,5 @@ load(here::here("data/clean_sport_schedule.rda"))
   
 ### Example.
 ```{r,echo=TRUE}
-optimize_output <- optimize_schedule(clean_sport_schedule, date, activity, time, calburn, weight,flag_no_duplicate_activities)
-optim_plot <- optimize_output$table_result
-pie_optim(optim_plot)
+pie_optim(optim_result$table_result)
 ```
